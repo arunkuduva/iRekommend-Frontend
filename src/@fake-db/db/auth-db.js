@@ -5,7 +5,7 @@ import mock from '../mock';
 /* eslint-disable camelcase */
 
 const jwtConfig = {
-	secret: 'some-secret-code-goes-here',
+	// secret: 'some-secret-code-goes-here',
 	expiresIn: '2 days' // A numeric value is interpreted as a seconds count. If you use a string be sure you provide the time units (days, hours, etc)
 };
 
