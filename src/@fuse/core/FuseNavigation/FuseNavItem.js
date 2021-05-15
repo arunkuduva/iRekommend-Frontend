@@ -1,10 +1,9 @@
 import React from 'react';
 
-const components = Object.create({});
+const components = {};
 
 export function registerComponent(name, Component) {
-	const componentPrototype = Object.freeze(Component);
-	components[name] = componentPrototype;
+	Object.assign(components[name], source)
 }
 
 export default function FuseNavItem(props) {
