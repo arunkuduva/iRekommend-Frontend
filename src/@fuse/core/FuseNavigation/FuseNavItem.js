@@ -3,9 +3,8 @@ import React from 'react';
 const components = {};
 
 export function registerComponent(name, Component) {
-	const n = name;
-	Object.freeze(components);
-	components[n] = Component;
+	const componentPrototype = Object.freeze(Component);
+	components[name] = componentPrototype;
 }
 
 export default function FuseNavItem(props) {
