@@ -106,6 +106,9 @@ const AnalyticsDashboardApp = props => {
 		if(date < selectedFromDate) {
 			dispatch(showMessage({ message: 'Please select correct date.', variant: 'warning' }));
 			return;
+		} else if(date > moment()) {
+			dispatch(showMessage({ message: 'Please select correct date.', variant: 'warning' }));
+			return;
 		}
 		setSelectedToDate(date);
 	};

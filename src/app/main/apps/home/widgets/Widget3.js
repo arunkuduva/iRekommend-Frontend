@@ -24,13 +24,12 @@ const useStyles = makeStyles(theme => ({
 function Widget3(props) {
 	const classes = useStyles();
 	const dispatch = useDispatch();
-	const [fileName, setFileName] = useState('');
+	const resumeFileName = useSelector(({ projectDashboardApp }) => projectDashboardApp.projects.resumeFileName); 	
 
 	const handleChange = (e) => { 
 		const ext = getFilenameAndExtension(e.target.value)[1];
 		if(ext==='zip' || ext==='rar') {
-			setFileName(e.target.value.split(`\\`)[2]);
-			props.onStateChanged({ resumeFileName: e.target.value.split(`\\`)[2] });
+			dispatch(setResumeFileName(e.target.value.split(`\\`)[2]));
 			return;
 		}
 		
@@ -46,10 +45,10 @@ function Widget3(props) {
 				</Typography>
 			</div>
 			
-			{fileName && 
+			{resumeFileName && 
 				<div className="flex items-center px-16 h-52 border-b-1">
 					<Typography className="text-15 flex w-full" color="black">
-						<span className="truncate">{`${fileName}`}</span>
+						<span className="truncate">{`${resumeFileName}`}</span>
 					</Typography>
 				</div>
 			}

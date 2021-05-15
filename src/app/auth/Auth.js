@@ -9,6 +9,7 @@ import { hideMessage, showMessage } from 'app/store/fuse/messageSlice';
 
 import { setUserDataFirebase, setUserDataAuth0, setUserData, logoutUser } from './store/userSlice';
 import { setAuthUser } from './store/registerSlice';
+import { setEmail, setResumeFileName, setTemplateFileName } from 'app/main/apps/home/store/projectsSlice';
 
 import history from '@history';
 
@@ -110,17 +111,9 @@ class Auth extends Component {
 			firebaseService.onAuthStateChanged(authUser => { 				
 				if (authUser) {	
 					this.props.setAuthUser(authUser);
-					console.log('-------', authUser);
-
-					let sessionTimeout = null;
-					authUser.getIdTokenResult().then((idTokenResult) => {
-						// Make sure all the times are in milliseconds!
-						const authTime = idTokenResult.claims.auth_time * 1000;
-						const sessionDuration = 1670 * 60 * 60 * 24 * 30;
-						const millisecondsUntilExpiration = sessionDuration - (Date.now() - authTime);
-						sessionTimeout = setTimeout(() => firebaseService.auth.signOut(), millisecondsUntilExpiration);
-					});
-										
+					this.props.setEmail('');
+					this.props.setResumeFileName('');
+					this.props.setTemplateFileName('');					
 					this.props.showMessage({ message: 'Logging in' });
 
 					/**
@@ -139,12 +132,7 @@ class Auth extends Component {
 								return;
 							} 
 							this.props.showMessage({ message: 'Logged in' });
-						},
-						error => {
-							sessionTimeout && clearTimeout(sessionTimeout);
-							sessionTimeout = null;
-							resolve();
-						}
+						},						
 					);
 				} else {
 					resolve();
@@ -168,7 +156,10 @@ function mapDispatchToProps(dispatch) {
 			setUserDataFirebase,
 			setAuthUser,
 			showMessage,
-			hideMessage
+			hideMessage,
+			setEmail, 
+			setResumeFileName,
+			setTemplateFileName
 		},
 		dispatch
 	);

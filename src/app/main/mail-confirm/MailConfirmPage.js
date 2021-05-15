@@ -72,7 +72,7 @@ function MailConfirmPage() {
 							</Typography>
 
 							<Typography className="text-center w-full" color="textSecondary">
-								Check you spam/junk folder.
+								Check your spam/junk folder.
 							</Typography>
 
 							{/* <div className="flex flex-col items-center justify-center pt-32 pb-24">

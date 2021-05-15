@@ -25,13 +25,12 @@ const useStyles = makeStyles(theme => ({
 function Widget4(props) {
 	const classes = useStyles();
 	const dispatch = useDispatch();
-	const [fileName, setFileName] = useState('');	
+	const templateFileName = useSelector(({ projectDashboardApp }) => projectDashboardApp.projects.templateFileName);
 
 	const handleChange = (e) => {
 		const ext = getFilenameAndExtension(e.target.value)[1];
 		if(ext==='xlsx' || ext==='xls') {
-			setFileName(e.target.value.split(`\\`)[2]);
-			props.onStateChanged({ templateFileName: e.target.value.split(`\\`)[2] });
+			dispatch(setTemplateFileName(e.target.value.split(`\\`)[2]));
 			return;
 		}
 		
@@ -55,10 +54,10 @@ function Widget4(props) {
 				
 			</div>
 
-			{fileName && 
+			{templateFileName && 
 				<div className="flex items-center px-16 h-52 border-b-1">
 					<Typography className="text-15 flex w-full" color="black">
-						<span className="truncate">{`${fileName}`}</span>
+						<span className="truncate">{`${templateFileName}`}</span>
 					</Typography>
 				</div>
 			}

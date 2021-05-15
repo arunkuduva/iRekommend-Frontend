@@ -17,6 +17,7 @@ import ToolbarLayout1 from './components/ToolbarLayout1';
 import { useLocation } from 'react-router-dom'
 import {useParams} from 'react-router-dom'
 import history from '@history';
+import IdleTimer from 'react-idle-timer';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -92,6 +93,41 @@ function Layout1(props) {
 	const location = useLocation(); 
 	const [mailVerificationState, setMailVerificationState] = useState(false)
 	
+	const [state, setState] = useState({
+		timeout:1000 * 60 * 5,
+		showModal: false,
+		userLoggedIn: false,
+		isTimedOut: false
+	})
+
+	let idleTimer = null
+	const onAction = _onAction.bind(this)
+	const onActive = _onActive.bind(this)
+	const onIdle = _onIdle.bind(this)	
+
+	function _onAction(e) {
+		console.log('user did something', e)
+		setState({...state, isTimedOut: false})
+	}
+	 
+	function _onActive(e) {
+		console.log('user is active', e)
+		setState({...state, isTimedOut: false})
+	}
+	 
+	function _onIdle(e) {
+		console.log('user is idle', e)
+		const isTimedOut = state.isTimedOut
+		if (isTimedOut) {
+			console.log('isTimeOut: ',state.isTimeOut)
+		} else {
+			history.push({ pathname: '/logout' })
+			idleTimer.reset();
+			setState({...state, isTimedOut: true})
+		}
+		
+	}
+
 	useEffect(()=>{		
 		if(history.location.pathname.includes('mail-confirm')){
 			setMailVerificationState(true)
@@ -101,6 +137,15 @@ function Layout1(props) {
 	switch (config.scroll) {
 		case 'body': {
 			return (
+				<>
+				<IdleTimer
+					ref={ref => { idleTimer = ref }}
+					// element={document}
+					onActive={onActive}
+					onIdle={onIdle}
+					onAction={onAction}
+					debounce={250}
+					timeout={state.timeout} />
 				<div id="fuse-layout" className={clsx(classes.root, config.mode, `scroll-${config.scroll}`)}>
 					{config.leftSidePanel.display && <LeftSideLayout1 />}
 
@@ -154,11 +199,21 @@ function Layout1(props) {
 
 					<FuseMessage />
 				</div>
+				</>
 			);
 		}
 		case 'content':
 		default: {
 			return (
+				<>
+				<IdleTimer
+					ref={ref => { idleTimer = ref }}
+					// element={document}
+					onActive={onActive}
+					onIdle={onIdle}
+					onAction={onAction}
+					debounce={250}
+					timeout={state.timeout} />
 				<div id="fuse-layout" className={clsx(classes.root, config.mode, `scroll-${config.scroll}`)}>
 					{config.leftSidePanel.display && <LeftSideLayout1 />}
 
@@ -202,6 +257,7 @@ function Layout1(props) {
 					</div>
 					<FuseMessage />
 				</div>
+				</>
 			);
 		}
 	}

@@ -50,22 +50,10 @@ function Register() {
 						)}
 						square
 					>
-						<CardContent className="flex flex-col items-center justify-center w-full py-96 max-w-320">
+						<CardContent className="flex flex-col items-center justify-center w-full py-48 max-w-320">
 							<FuseAnimate delay={300}>
 								<div className="flex items-center justif-center mb-32">
-									<img className="logo-icon w-48" src="assets/images/logos/fuse.svg" alt="logo" />
-									<div className="border-l-1 mr-4 w-1 h-40" />
-									<div>
-										<Typography className="text-24 font-800 logo-text" color="inherit">
-											JOB
-										</Typography>
-										<Typography
-											className="text-16 tracking-widest -mt-8 font-700"
-											color="textSecondary"
-										>
-											SAGE
-										</Typography>
-									</div>
+									<img className="logo-icon w-48" src="assets/images/logos/fuse.svg" alt="logo" />									
 								</div>
 							</FuseAnimate>
 							<FirebaseRegisterTab />
@@ -80,33 +68,14 @@ function Register() {
 							</div>
 						</div>
 					</Card>
-
-					<div
-						className={clsx(classes.rightSection, 'hidden md:flex flex-1 items-center justify-center p-0')}
-					>
-						{/* <div className="max-w-320">
-							<FuseAnimate animation="transition.slideUpIn" delay={400}>
-								<Typography variant="h3" color="inherit" className="font-800 leading-tight">
-									Welcome <br />
-									to the <br /> Job Sage!
-								</Typography>
-							</FuseAnimate>
-
-							<FuseAnimate delay={500}>
-								<Typography variant="subtitle1" color="inherit" className="mt-32">
-									Powerful and professional Job Sage!
-								</Typography>
-							</FuseAnimate>
-						</div>
-						 */}
-						 <img
-								src="assets/images/login/image.jpg"
-								alt=""
-								style={{
-									width: '100%',
-									height: '100%'
-								}}
-							/>
+					<div className={clsx(classes.rightSection, 'hidden md:flex flex-1 items-center justify-center p-0')} style={{ background: "#fff" }}>
+						<img
+							src="assets/images/login/image.jpg"
+							alt=""
+							style={{
+								maxWidth: 600,
+							}}
+						/>
 					</div>
 				</div>
 			</FuseAnimate>

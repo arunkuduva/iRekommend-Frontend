@@ -2,16 +2,14 @@ import FuseAnimateGroup from '@fuse/core/FuseAnimateGroup';
 import { makeStyles } from '@material-ui/core/styles';
 import withReducer from 'app/store/withReducer';
 import _ from '@lodash';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import reducer from '../store';
-import { selectProjects, getProjects } from '../store/projectsSlice';
-import { getWidgets, selectWidgets } from '../store/widgetsSlice';
 import Typography from '@material-ui/core/Typography';
-import Widget5 from '../widgets/Widget5';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Box from '@material-ui/core/Box';
 import PropTypes from 'prop-types';
+import { setEmail, setResumeFileName, setTemplateFileName } from '../store/projectsSlice';
 
 function LinearProgressWithLabel(props) {
 	return (
@@ -41,11 +39,16 @@ const useStyles = makeStyles({
 });
 
 function Step2(props) {
+	const dispatch = useDispatch();
 	const classes = useStyles();
-	const [progress, setProgress] = React.useState(0);
-	const [flag, setFlag] = React.useState(false);
+	const email = useSelector(({ projectDashboardApp }) => projectDashboardApp.projects.email); 
+	const [progress, setProgress] = useState(0);
+	const [flag, setFlag] = useState(false);
+	const [state, setState] = useState({
+		email: ''
+	});
 
-	React.useEffect(() => {
+	useEffect(() => {
 		var callOut = 0;
 		const timer = setInterval(() => {
 			callOut += 5;
@@ -60,6 +63,13 @@ function Step2(props) {
 		};
 	}, []);
 
+	useState(() => {
+		setState({ ...state, email });
+		dispatch(setEmail(''));
+		dispatch(setResumeFileName(''));
+		dispatch(setTemplateFileName(''));
+	}, [email]);
+
 	return (
 		<div className={classes.root}>
 			{flag ? (
@@ -71,7 +81,7 @@ function Step2(props) {
 						}}
 					>
 						<Typography variant="h5" gutterBottom>
-							{`Your recommendations have been sent to ${props.email}`}
+							{`Your recommendations have been sent to ${state.email}`}
 						</Typography>
 					</FuseAnimateGroup>
 					<FuseAnimateGroup

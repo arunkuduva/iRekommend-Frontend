@@ -50,17 +50,10 @@ function ProjectDashboardApp(props) {
 	const classes = useStyles(props);
 	const pageLayout = useRef(null);
 	const user = useSelector(({ auth }) => auth.user); 
+	const email = useSelector(({ projectDashboardApp }) => projectDashboardApp.projects.email); 
+	const resumeFileName = useSelector(({ projectDashboardApp }) => projectDashboardApp.projects.resumeFileName); 
+	const templateFileName = useSelector(({ projectDashboardApp }) => projectDashboardApp.projects.templateFileName); 
 	const [activeStep, setActiveStep] = useState(0);
-
-	const [state, setState] = useState(defaultState);
-
-	const onStateChanged = (data) => { 
-		
-		setState({ 
-			...state, 
-			...data 
-		});
-	}
 
 	function getSteps() {
 		return ['Upload Resume & Roles', 'Download Recommendations'];
@@ -68,13 +61,16 @@ function ProjectDashboardApp(props) {
 
 	const steps = getSteps();
 
-	const handleNext = async() => {
-		dispatch(openMailDialog({ email: state.email, e: (prev) => setActiveStep(1) }));
+	const openDialog = () => {
+		dispatch(openMailDialog({ email, handleNext: () => handleNext() }));
+	};
+
+	const handleNext = () => {
+		setActiveStep(prevActiveStep => prevActiveStep + 1);
 	};
 
 	const handleBack = () => {
 		setActiveStep(prevActiveStep => prevActiveStep - 1);
-		setState(defaultState);
 	};
 
 	const handleReset = () => {
@@ -84,9 +80,9 @@ function ProjectDashboardApp(props) {
 	function getStepContent(stepIndex) {
 		switch (stepIndex) {
 			case 0:
-				return <Step1 onStateChanged={onStateChanged} />;
+				return <Step1 />;
 			case 1:
-				return <Step2 email={state.email} />;
+				return <Step2 />;
 			default:
 				return 'Unknown stepIndex';
 		}
@@ -132,8 +128,8 @@ function ProjectDashboardApp(props) {
 									<Button 
 										variant="contained" 
 										color="primary" 
-										disabled={state.resumeFileName && state.templateFileName && state.email ? false : true} 
-										onClick={handleNext}
+										disabled={resumeFileName && templateFileName && email ? false : true} 
+										onClick={openDialog}
 									>
 										{`Continue`}
 									</Button>

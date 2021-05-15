@@ -259,7 +259,7 @@ function FirebaseRegisterTab(props) {
 
 				<div className="flex flex-col items-center justify-center pb-32">
 					<div>
-						<span className="font-medium mr-8">{`By Register, you agree to our`}</span>
+						<span className="font-medium mr-8">{`By Registering, you agree to our`}</span>
 						<Link className="font-medium" onClick={() => handleOpenDialog('6')}>
 							Terms & Conditions 
 						</Link>

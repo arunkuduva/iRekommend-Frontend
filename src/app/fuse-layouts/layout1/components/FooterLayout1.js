@@ -25,9 +25,8 @@ function FooterLayout1(props) {
 					<div className="flex flex-grow flex-shrink-0 justify-center">					
 						<Typography>
 							<span className='pr-8'>(c) SimplyAI 2021 - All rights reserved  | For Support, contact us at :</span> 
-							<Link to='arvind@jobsage.app'>
-								arvind@jobsage.app
-							</Link>
+							<a className="font-medium mr-8" href='mailto:arvind@jobsage.app'>Arvind@jobsage.app</a> 
+
 						</Typography>
 					</div>
 				</Toolbar>

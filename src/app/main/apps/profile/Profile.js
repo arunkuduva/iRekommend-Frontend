@@ -82,10 +82,7 @@ function Profile() {
 							}							
 						</CardContent>
 
-						<div className="flex flex-col items-center justify-center pb-32">							
-							{/* <Link className="font-medium mt-8" to="/">
-								Back to Dashboard
-							</Link> */}
+						<div className="flex flex-col items-center justify-center pb-32">													
 						</div>
 					</Card>
 				</div>

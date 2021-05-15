@@ -1,6 +1,7 @@
 import FuseAnimateGroup from '@fuse/core/FuseAnimateGroup';
 import { TextFieldFormsy } from '@fuse/core/formsy';
 import InputAdornment from '@material-ui/core/InputAdornment';
+import Typography from '@material-ui/core/Typography';
 import Icon from '@material-ui/core/Icon';
 import withReducer from 'app/store/withReducer';
 import Formsy from 'formsy-react';
@@ -8,7 +9,7 @@ import _ from '@lodash';
 import React, { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import reducer from '../store';
-import { selectProjects, getProjects } from '../store/projectsSlice';
+import { selectProjects, getProjects, setEmail } from '../store/projectsSlice';
 import { getWidgets, selectWidgets } from '../store/widgetsSlice';
 
 import Widget3 from '../widgets/Widget3';
@@ -16,6 +17,7 @@ import Widget4 from '../widgets/Widget4';
 
 function Step1(props) {
 	const dispatch = useDispatch();
+	const email = useSelector(({ projectDashboardApp }) => projectDashboardApp.projects.email); 
 	const widgets = useSelector(selectWidgets);
 	const projects = useSelector(selectProjects);
 	const formRef = useRef(null);
@@ -26,7 +28,7 @@ function Step1(props) {
 	}, [dispatch]);
 	
 	const handleChange = async(e) => {
-		props.onStateChanged({ email: e.target.value })	
+		dispatch(setEmail(e.target.value))
 	}
 
 	if (_.isEmpty(widgets) || _.isEmpty(projects)) {
@@ -58,18 +60,17 @@ function Step1(props) {
 			>
 				<div className="widget flex w-full sm:w-1 md:w-1/2 p-16" style={{ marginBottom: 30 }}>
 					<Formsy ref={formRef} className="flex flex-col justify-center w-full">
+						<Typography className='px-2 pb-5'>Enter your email to send recommendations</Typography>
 						<TextFieldFormsy
 							className="mb-16"
 							type="email"
 							name="email"
 							label="Email"
+							value={email}
 							validations="isEmail"					
 							validationErrors={{
 								isEmail: 'Please enter a valid email'
-							}}
-							validationErrors={{
-								isEmail: 'Please enter a valid email'
-							}}
+							}}							
 							onChange={handleChange}
 							InputProps={{
 								endAdornment: (

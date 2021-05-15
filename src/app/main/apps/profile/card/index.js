@@ -138,7 +138,7 @@ function CreditCard(props) {
           type="tel"
           name="expiry"
           className="mb-16"
-          label="Expiration Date"
+          label="Expiration Date(MM/YY)"
           value={state.expiry}
           pattern="\d\d/\d\d"
           required
@@ -167,7 +167,7 @@ function CreditCard(props) {
           aria-label="REGISTER WITH FIREBASE"
           // disabled={!isFormValid}
         >
-          Sign up
+          Upgrade
         </Button>
       </form>     
     </div>

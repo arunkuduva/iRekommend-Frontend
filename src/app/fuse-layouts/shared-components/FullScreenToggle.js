@@ -129,7 +129,7 @@ const HeaderFullScreenToggle = props => {
 						}}
 						role="button"
 					>
-						<ListItemText primary="Linkdin" />
+						<ListItemText primary="Linkedin" />
 					</MenuItem>
 				</>
 			</Popover>

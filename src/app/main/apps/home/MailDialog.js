@@ -15,17 +15,19 @@ import Typography from '@material-ui/core/Typography';
 import _ from '@lodash';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { openMailDialog, closeMailDialog } from './store/projectsSlice';
+import { openMailDialog, closeMailDialog, setEmail } from './store/projectsSlice';
 import IconButton from '@material-ui/core/IconButton';
 import { showMessage } from 'app/store/fuse/messageSlice';
 
 const defaultFormState = {
 	email: '',
+	handleNext: null
 };
 
 function AddUserDialog(props) {
 	const dispatch = useDispatch();	
-	const mailDialog = useSelector(({ projectDashboardApp }) => projectDashboardApp.projects.mailDialog);	
+	const mailDialog = useSelector(({ projectDashboardApp }) => projectDashboardApp.projects.mailDialog);
+	const email = useSelector(({ projectDashboardApp }) => projectDashboardApp.projects.email); 	
 	const { form, handleChange, setForm } = useForm(defaultFormState); 	
 	const formRef = useRef(null);
 
@@ -55,9 +57,10 @@ function AddUserDialog(props) {
 		setIsFormValid(true);
 	}
 
-	function handleSubmit(event) {
-		mailDialog.data.e();
-		event.preventDefault();		
+	function handleSubmit(event) {	
+		dispatch(setEmail(form.email));		
+		event.preventDefault();			
+		mailDialog.data.handleNext();
 		closeComposeDialog();
 	}
 
@@ -104,10 +107,7 @@ function AddUserDialog(props) {
 								validations="isEmail"					
 								validationErrors={{
 									isEmail: 'Please enter a valid email'
-								}}
-								validationErrors={{
-									isEmail: 'Please enter a valid email'
-								}}
+								}}								
 								onChange={handleChange}
 								InputProps={{
 									endAdornment: (
@@ -136,9 +136,15 @@ function AddUserDialog(props) {
 							OK
 						</Button>
 					</div>
-					<IconButton onClick={handleRemove}>
-						<Icon>delete</Icon>
-					</IconButton>
+					<div className="px-16">
+						<Button
+							variant="contained"
+							color="primary"
+							onClick={handleRemove}
+						>
+							CANCEL
+						</Button>
+					</div>	
 				</DialogActions>
 			</Formsy>
 		</Dialog>
