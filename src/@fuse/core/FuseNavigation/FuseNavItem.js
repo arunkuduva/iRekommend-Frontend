@@ -4,6 +4,7 @@ const components = {};
 
 export function registerComponent(name, Component) {
 	components[name] = Component;
+	Object.freeze(components);
 }
 
 export default function FuseNavItem(props) {
