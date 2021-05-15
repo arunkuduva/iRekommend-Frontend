@@ -1,6 +1,6 @@
 import React from 'react';
 
-const components = {};
+const components = Object.create({});
 
 export function registerComponent(name, Component) {
 	const componentPrototype = Object.freeze(Component);
