@@ -1,4 +1,5 @@
 import { authRoles } from 'app/auth';
+import MailConfirm from './MailConfirmPage';
 import React from 'react';
 
 const MailConfirmPageConfig = {
@@ -23,10 +24,12 @@ const MailConfirmPageConfig = {
 			}
 		}
 	},
+	// auth: authRoles.onlyGuest,
 	routes: [
 		{
 			path: '/mail-confirm',
 			component: React.lazy(() => import('./MailConfirmPage'))
+			// component: MailConfirm
 		}
 	]
 };

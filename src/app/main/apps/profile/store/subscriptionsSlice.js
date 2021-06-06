@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk, createEntityAdapter } from '@reduxjs/toolkit';
 import axios from 'axios';
 import firebaseService from 'app/services/firebaseService';
+import { API_URL, FIREBASE_FUNCTION_API_ENDPOINT } from 'app/fuse-configs/endpointConfig';
 
 export const getSubscription = createAsyncThunk('profileApp/subscription', params => 
 	new Promise((resolve, reject) => {
@@ -21,6 +22,44 @@ export const getSubscription = createAsyncThunk('profileApp/subscription', param
 			resolve(subscriptions);
 		});
 	})		
+);	
+
+export const createSubscription1 = createAsyncThunk('profileApp/createSubscription', params => 	
+	new Promise((resolve, reject) => { 
+		const { user, stripe, token } = params;
+	
+		axios.post(
+			`${FIREBASE_FUNCTION_API_ENDPOINT}/createCustomerAndSubscription`,
+			{
+			  name: user.data.displayName,
+			  source: token,
+			  email: user.data.email,
+			  planId: stripe.planId,
+			  trial_end: '1625268687',
+			}
+		).then(response => {
+			resolve(response);
+		}).catch(error => {
+			resolve(error);
+		})
+	})	
+);
+
+export const updateSubscription1 = createAsyncThunk('profileApp/updateSubscription', params => 	
+	new Promise((resolve, reject) => { 
+		const { subscription, stripe } = params;
+		axios.post(
+			`${FIREBASE_FUNCTION_API_ENDPOINT}/updateSubscription1`, 
+			{ 
+			  id: subscription[0].id, 
+			  priceId: stripe.planId 
+			}
+		).then(response => {
+			resolve(response);
+		}).catch(error => {
+			resolve(error);
+		})
+	})	
 );	
 
 export const saveSubscription = createAsyncThunk('profileApp/subscription/save', async (params, { dispatch, getState } ) => { 

@@ -59,7 +59,7 @@ function ProjectDashboardApp(props) {
 			dispatch(logoutUser());
 			return;
 		}
-		axios.get(`${API_URL}/dashboard/${user.uid}`).then(response => {
+		axios.get(`${API_URL}/dashboard/${user.uid}`).then(response => { 
 			if(response.data) {
 				setTrialState(response.data.flag);
 			}

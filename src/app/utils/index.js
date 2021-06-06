@@ -49,36 +49,33 @@ export function downloadURL(url, name) {
     document.body.removeChild(link);
 }
 
-export function downloadFiles(files) {
-    var link = document.createElement('a');
-  
-    link.setAttribute('download', null);
-    link.style.display = 'none';
-  
-    document.body.appendChild(link);
-  
-    for (var i = 0; i < files.length; i++) {
-      link.setAttribute('href', files[i].resumeFileDownloadURL);
-      link.click();
-    }
-  
-    document.body.removeChild(link);
-}
+const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
 
-export function download(...urls) {
-    urls.forEach(url => {
-      let iframe = document.createElement('iframe');
-      iframe.style.visibility = 'collapse';
-      document.body.append(iframe);
+const download = async (url, name) => {
+	const a = document.createElement('a');
+	a.download = name;
+	a.href = url;
+	a.style.display = 'none';
+	document.body.append(a);
+	a.click();
 
-      iframe.contentDocument.write(
-        `<form action="${url}" method="GET"></form>`
-      );
-      iframe.contentDocument.forms[0].submit();
+	// Chrome requires the timeout
+	await delay(100);
+	a.remove();
+};
 
-      setTimeout(() => iframe.remove(), 2000);
-    });
-}
+export async function file_downloads(urls, options = {}) {
+	if (!urls) {
+		throw new Error('`urls` required');
+	}
+
+	for (const [index, url] of urls.entries()) {
+		const name = typeof options.rename === 'function' ? options.rename({url, index, urls}) : '';
+
+		await delay(index * 1000);
+		download(url, name);
+	}
+};
 
 export function getMailBody(invoiceData) {
     return(

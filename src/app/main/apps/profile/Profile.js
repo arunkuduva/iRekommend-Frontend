@@ -45,7 +45,7 @@ function Profile() {
 				'flex flex-col flex-auto items-center justify-center flex-shrink-0 p-16 md:p-24'
 			)}
 		>
-			<FuseAnimate animation="transition.expandIn">
+			<FuseAnimate delay={300}>
 				<div className="flex w-full max-w-400 rounded-12 shadow-2xl overflow-hidden">
 					<Card
 						className={clsx(

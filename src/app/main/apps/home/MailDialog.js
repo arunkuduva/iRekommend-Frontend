@@ -120,17 +120,14 @@ function AddUserDialog(props) {
 				n ++; 
 				if(n < 2) {
 					uploadFile(files, n)
-				} else {					
-					// let pyResumeFilePath = `${PY_API_ENDPOINT}/${resumeFileDownloadURL.slice(FB_STORAGE_URL_ENDPOINT.length, resumeFileDownloadURL.length)}`;
-					// let pyTemplateFilePath = `${PY_API_ENDPOINT}/${templateFileDownloadURL.slice(FB_STORAGE_URL_ENDPOINT.length, templateFileDownloadURL.length)}`;					
-
+				} else {										
 					const pyResumeFilePath = `${PY_API_ENDPOINT}/${resumeFileSaveName}`;
 					const pyTemplateFilePath = `${PY_API_ENDPOINT}/${templateFileSaveName}`;					
 
-					axios.get(`${PY_FILES_API_ENDPOINT}`, {
+					axios.get(`${PY_FILES_API_ENDPOINT}`, {						
 						params: {
-							url1: pyResumeFilePath,
-							url2: pyTemplateFilePath,
+							url1: pyTemplateFilePath,
+							url2: pyResumeFilePath,
 							user_email: authUser.data.email,
 							recc_email: form.email
 						}

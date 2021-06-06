@@ -49,7 +49,6 @@ const stripeProductsSlice = createSlice({
 		stripe: {
 			productId: '',
 			planId: '',
-			isEqualPromoCode: true,
 		},
 	}),
 	reducers: {

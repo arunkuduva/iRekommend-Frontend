@@ -1,19 +1,17 @@
 import FuseSplashScreen from '@fuse/core/FuseSplashScreen';
-import auth0Service from 'app/services/auth0Service';
 import firebaseService from 'app/services/firebaseService';
-import jwtService from 'app/services/jwtService';
 import React, { Component } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import { bindActionCreators } from '@reduxjs/toolkit';
 import { hideMessage, showMessage } from 'app/store/fuse/messageSlice';
 
-import { setUserDataFirebase, setUserDataAuth0, setUserData, logoutUser } from './store/userSlice';
+import { setUserDataFirebase, setUserData, logoutUser } from './store/userSlice';
 import { setEmail, setResumeFileName, setTemplateFileName } from 'app/main/apps/home/store/projectsSlice';
 import { setActiveStep } from 'app/main/apps/profile/store/profileSlice';
 
-import history from '@history';
 import { API_URL } from 'app/fuse-configs/endpointConfig';
 import axios from 'axios';
+import history from '@history'
 
 class Auth extends Component {
 	state = {
@@ -22,85 +20,11 @@ class Auth extends Component {
 
 	componentDidMount() {
 		return Promise.all([
-			// Comment the lines which you do not use
-			this.firebaseCheck(),
-			// this.auth0Check(),
-			// this.jwtCheck()
+			this.firebaseCheck(),			
 		]).then(() => {
 			this.setState({ waitAuthCheck: false });
 		});
 	}
-
-	jwtCheck = () =>
-		new Promise(resolve => {
-			jwtService.on('onAutoLogin', () => {
-				this.props.showMessage({ message: 'Logging in with JWT' });
-
-				/**
-				 * Sign in and retrieve user data from Api
-				 */
-				jwtService
-					.signInWithToken()
-					.then(user => {
-						this.props.setUserData(user);
-
-						resolve();
-
-						this.props.showMessage({ message: 'Logged in with JWT' });
-					})
-					.catch(error => {
-						this.props.showMessage({ message: error.message });
-
-						resolve();
-					});
-			});
-
-			jwtService.on('onAutoLogout', message => {
-				if (message) {
-					this.props.showMessage({ message });
-				}
-
-				this.props.logout();
-
-				resolve();
-			});
-
-			jwtService.on('onNoAccessToken', () => {
-				resolve();
-			});
-
-			jwtService.init();
-
-			return Promise.resolve();
-		});
-
-	auth0Check = () =>
-		new Promise(resolve => {
-			auth0Service.init(success => {
-				if (!success) {
-					resolve();
-				}
-			});
-
-			if (auth0Service.isAuthenticated()) {
-				this.props.showMessage({ message: 'Logging in with Auth0' });
-
-				/**
-				 * Retrieve user data from Auth0
-				 */
-				auth0Service.getUserData().then(tokenData => {
-					this.props.setUserDataAuth0(tokenData);
-
-					resolve();
-
-					this.props.showMessage({ message: 'Logged in with Auth0' });
-				});
-			} else {
-				resolve();
-			}
-
-			return Promise.resolve();
-		});
 
 	firebaseCheck = () =>
 		new Promise(resolve => {
@@ -126,17 +50,21 @@ class Auth extends Component {
 							this.props.setUserDataFirebase(user, authUser);
 
 							resolve();
+							
+							// if(!authUser.emailVerified) {
+							// 	history.push({ pathname: '/mail-confirm' });
+							// 	return;
+							// }
 
-							if(firebaseService.auth && !firebaseService.auth.currentUser.emailVerified) {
-								this.props.showMessage({ message: 'Please verify your email' });	
-								firebaseService.signOut()						
-								history.push({ pathname: `/mail-confirm` });
-								return;
-							} 
-							axios.get(`${API_URL}/trigerlogin/${authUser.uid}/`).then((response) => {
-								console.log('response.data');
-							})
-							this.props.showMessage({ message: 'Logged in' });
+							if(authUser.emailVerified) {
+								axios.get(`${API_URL}/trigerlogin/${authUser.uid}/`).then((response) => {
+									console.log('response.data');
+								});
+
+								this.props.showMessage({ message: 'Logged in' });
+							} else {
+								this.props.showMessage({ message: 'Please verify your email' });
+							}
 						},						
 					);
 				} else {
@@ -157,7 +85,6 @@ function mapDispatchToProps(dispatch) {
 		{
 			logout: logoutUser,
 			setUserData,
-			setUserDataAuth0,
 			setUserDataFirebase,
 			showMessage,
 			hideMessage,

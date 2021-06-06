@@ -1,8 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { showMessage } from 'app/store/fuse/messageSlice';
 import firebaseService from 'app/services/firebaseService';
-import jwtService from 'app/services/jwtService';
-import { updateUserSettingsFirebase, setUserData } from './userSlice';
+import { updateUserSettingsFirebase } from './userSlice';
 import axios from 'axios';
 
 export const submitUpdate = model => async dispatch => { 

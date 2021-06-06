@@ -23,7 +23,7 @@ const projectsSlice = createSlice({
 		resumeFileName: '',
 		templateFileName: '',
 		email: '',
-		profress: 0,
+		progress: 0,
 		isFileUploadCompleted: true,
 		mailDialog: {
 			props: {

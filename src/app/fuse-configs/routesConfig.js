@@ -1,6 +1,5 @@
 import FuseUtils from '@fuse/utils';
 import appsConfigs from 'app/main/apps/appsConfigs';
-import CallbackConfig from 'app/main/callback/CallbackConfig';
 import LoginConfig from 'app/main/login/LoginConfig';
 import LogoutConfig from 'app/main/logout/LogoutConfig';
 import pagesConfigs from 'app/main/pages/pagesConfigs';
@@ -9,13 +8,11 @@ import ForgotPasswordPageConfig from 'app/main/forgot-password/ForgotPasswordPag
 import MailConfirmPageConfig from 'app/main/mail-confirm/MailConfirmPageConfig';
 import DocumentPageConfig from 'app/main/document/DocumentPageConfig';
 import React from 'react';
-import { Redirect } from 'react-router-dom';
-import history from '@history';
+import { Redirect } from 'react-router-dom'; 
 
 const routeConfigs = [
 	...appsConfigs,
 	...pagesConfigs,
-	CallbackConfig,
 	LogoutConfig,
 	LoginConfig,
 	RegisterConfig,

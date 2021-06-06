@@ -1,4 +1,5 @@
 import FuseAnimateGroup from '@fuse/core/FuseAnimateGroup';
+import FuseLoading from '@fuse/core/FuseLoading';
 import withReducer from 'app/store/withReducer';
 import _ from '@lodash';
 import React, { useState, useEffect, useRef } from 'react';
@@ -16,39 +17,46 @@ import moment from 'moment';
 import { showMessage } from 'app/store/fuse/messageSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { getFiles, selectFiles } from './store/filesSlice';
-import firebase from 'firebase/app';
+import axios from 'axios';
 import 'firebase/auth';
 import 'firebase/storage';
-import { downloadURL } from 'app/utils'
+import { downloadURL, file_downloads } from 'app/utils';
+import { API_URL } from 'app/fuse-configs/endpointConfig';
 
-const w = {
+const TMY = {
+	T: [ 'Trial', 'Trial' ],
+	M: [ 'Month to Date', 'Monthly' ],
+	Y: [ 'Year to Date', 'Yearly' ]
+};
+
+let w = {
 	widget1: {
 		currentRange: 'requirements',
 		id: 'widget1',
 		label: 'Roles Processed',
-		value: '50',
-		des: 'Month to Date'
+		value: '0',
+		des: ''
 	},
 	widget2: {
 		currentRange: 'resumes',
 		id: 'widget2',
 		label: 'Roles Quota Available',
-		value: '100',
-		des: 'Monthly'
+		value: '0',
+		des: ''
 	},
 	widget3: {
 		currentRange: 'requirements',
 		id: 'widget3',
 		label: 'Resumes Processed',
-		value: '1000',
-		des: 'Month to Date'
+		value: '0',
+		des: ''
 	},
 	widget4: {
 		currentRange: 'resumes',
 		id: 'widget4',
 		label: 'Resumes Quota Available',
-		value: '10,000',
-		des: 'Monthly'
+		value: '0',
+		des: ''
 	}
 };
 
@@ -98,6 +106,44 @@ const DashboardApp = props => {
 	const files = useSelector(selectFiles); 
 	const [fromDate, setFromDate] = useState(moment().date(1));
 	const [toDate, setToDate] = useState(moment()); 
+	const [loading, setLoading] = useState(true);
+
+	useEffect(() => {
+		axios.put(`${API_URL}/dashboard/${user.data.email}`).then((response) => {
+			const data = response.data; 
+			w = {
+				...w, widget1: {
+					...w.widget1,
+					value: data.roles_processed ? data.roles_processed : 0,
+					des: TMY[data.flag][0]
+				}
+			};
+			w = {
+				...w, widget2: {
+					...widgets.widget2,
+					value: data.roles_quota_available ? data.roles_quota_available : 0,
+					des: TMY[data.flag][1] 
+				}
+			};
+			w = {
+				...w, widget3: {
+					...w.widget3,
+					value: data.resumes_processed ? data.resumes_processed : 0,
+					des: TMY[data.flag][0] 
+				}
+			};
+			w = {
+				...w, widget4: {
+					...w.widget4,
+					value: data.resumes_quota_available ? data.resumes_quota_available : 0,
+					des: TMY[data.flag][1] 
+				}
+			};
+
+			setLoading(false);
+			setWidgets(w);
+		});
+	}, [user]);
 
 	useEffect(() => {
 		if(toDate && fromDate) { 
@@ -132,13 +178,18 @@ const DashboardApp = props => {
 		// downloadFiles(files);
 		const urls = [];
 		files.map(f => {		
-			downloadURL(f.resumeFileDownloadURL, `${user.data.email}_${f.timestamp}_${f.resumeFileName}`);
-			downloadURL(f.templateFileDownloadURL, `${user.data.email}_${f.timestamp}_${f.templateFileName}`);	
+			// downloadURL(f.resumeFileDownloadURL, `${user.data.email}_${f.timestamp}_${f.resumeFileName}`);
+			// downloadURL(f.templateFileDownloadURL, `${user.data.email}_${f.timestamp}_${f.templateFileName}`);	
 			urls.push(f.resumeFileDownloadURL);
 			urls.push(f.templateFileDownloadURL);
-		});
+		}); console.log('===============================', urls)
+		file_downloads(urls)
 	}
 
+	if(loading) {
+		return <FuseLoading />
+	}
+	  
 	return (
 		<FusePageSimple
 			classes={{

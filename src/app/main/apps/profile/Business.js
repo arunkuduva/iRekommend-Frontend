@@ -66,6 +66,11 @@ function BusinessProfilePage(props) {
 			});
 			setForm({ ...business[0].data });
 		} else {
+			setState({
+				phone: '',
+				country: '',
+				region: ''
+			});
 			setForm(defaultFormState);
 			setSaveFlag('insert');
 		}

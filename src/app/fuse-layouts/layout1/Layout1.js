@@ -128,8 +128,7 @@ function Layout1(props) {
 	}
 
 	useEffect(()=>{
-		// if(history.location.pathname.includes('home') && !user.emailVerified){	
-		// }		
+		console.log("current path name: ", history.location.pathname);	
 	},[history.location.pathname])
 	
 	switch (config.scroll) {

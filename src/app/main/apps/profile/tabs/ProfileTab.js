@@ -10,7 +10,6 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import { updateWithFirebase, submitUpdate } from 'app/auth/store/updateSlice';
-import { setActiveStep } from '../store/profileSlice';
 import { saveStripePlan } from '../store/stripePlansSlice';
 import { useForm } from '@fuse/hooks';
 import axios from 'axios';
@@ -18,8 +17,9 @@ import _ from '@lodash';
 import { FIREBASE_FUNCTION_API_ENDPOINT, API_URL } from 'app/fuse-configs/endpointConfig';
 import { showMessage } from 'app/store/fuse/messageSlice';
 import { saveStripeProduct, setStripe } from '../store/stripeProductsSlice';
+import { getSubscription, saveSubscription, selectSubscriptions, createSubscription1 } from "../store/subscriptionsSlice";
+
 import history from '@history';
-import { id } from 'date-fns/locale';
 
 const useStyles = makeStyles(theme => ({
 	upload: {
@@ -36,70 +36,73 @@ function FirebaseUpdateTab(props) {
 	const dispatch = useDispatch();
 	const classes = useStyles();
 	const user = useSelector(({ auth }) => auth.user); 
+	const subscription = useSelector(selectSubscriptions); 
 	const stripe = useSelector(({ profileApp }) => profileApp.stripeProducts.stripe);
 	const { form, handleChange, setForm } = useForm({ ...user.data, promoCode: user.data.hasOwnProperty('promoCode') ? user.data.promoCode : '' });
 	const [profileImg, setProfileImgData] = useState('');
 	const [profileObject, setProfileObject] = useState();
-	const [isFormValid, setIsFormValid] = useState(true);
+	const [isFormValid, setIsFormValid] = useState(false);
 	const [loading, setLoading] = useState(true);
 	const formRef = useRef(null);
 	let isValidPromoCode = false;
 
-	useEffect(() => {		
-		axios.post(`${FIREBASE_FUNCTION_API_ENDPOINT}/getProducts`, {}).then((response) => {
-			const products = response.data.data;
-			let product  = _.find(products, { name: 'JobSageSai' });
+	useEffect(() => {	
+		dispatch(getSubscription({ uid: user.uid })).then(
+			axios.post(`${FIREBASE_FUNCTION_API_ENDPOINT}/getProducts`, {}).then((response) => {
+				const products = response.data.data;
+				let product  = _.find(products, { name: 'JobSageSai' });
 
-			if(!product) { 
-
-				/*
-					create a stripe product named 'Jobsage' to stipe
-				**/
-				axios.post(`${FIREBASE_FUNCTION_API_ENDPOINT}/createProduct`, { name: 'JobSageSai', }).then((res) => {
-					product = res.data;
-					dispatch(setStripe({ ...stripe, productId: product.id, planId: '' }));
-
+				if(!product) { 
 
 					/*
-						save a stripe product to firebase realtime database
+						create a stripe product named 'Jobsage' to stipe
 					**/
-					dispatch(saveStripeProduct(product)).then(() => {
-						setLoading(false);
-					});								
-				})
-			} else { 
-
-				 /*
-				get a whole stripe plans from stipe
-				**/
-				axios.post(`${FIREBASE_FUNCTION_API_ENDPOINT}/getPlans`, {}).then(response => {
-					const plans = response.data.data; 
-			
-					/*
-					check if a stripe plan with the indicated promoCode exist 
-					**/
-					const plan = _.find(plans, { nickname: user.data.promoCode, product: product.id });
-					if(plan) {
-						dispatch(setStripe({ ...stripe, productId: product.id, planId: plan.id }));
-					} else {
+					axios.post(`${FIREBASE_FUNCTION_API_ENDPOINT}/createProduct`, { name: 'JobSageSai', }).then((res) => {
+						product = res.data;
 						dispatch(setStripe({ ...stripe, productId: product.id, planId: '' }));
-					}
-					
-					setLoading(false);	
-				}).catch((err) => {
-					showMessage({ message: err });
-					setLoading(false);
-				});  				
-			}
-		});		
-	}, [user]);
+
+
+						/*
+							save a stripe product to firebase realtime database
+						**/
+						dispatch(saveStripeProduct(product)).then(() => {
+							setLoading(false);
+						});								
+					})
+				} else { 
+
+					/*
+					get a whole stripe plans from stipe
+					**/
+					axios.post(`${FIREBASE_FUNCTION_API_ENDPOINT}/getPlans`, {}).then(response => {
+						const plans = response.data.data; 
+				
+						/*
+						check if a stripe plan with the indicated promoCode exist 
+						**/
+						const plan = _.find(plans, { nickname: user.data.promoCode, product: product.id });
+						if(plan) {
+							dispatch(setStripe({ ...stripe, productId: product.id, planId: plan.id }));
+						} else {
+							dispatch(setStripe({ ...stripe, productId: product.id, planId: '' }));
+						}
+						
+						setLoading(false);	
+					}).catch((err) => {
+						showMessage({ message: err });
+						setLoading(false);
+					});  				
+				}
+			})	
+		);			
+	}, [dispatch]);
 
 	function disableButton() {
 		setIsFormValid(false);
 	}
 
 	function enableButton() {
-		setIsFormValid(true);
+		setIsFormValid(true);			
 	}
 
 	async function handleSubmit(model) { 	
@@ -169,15 +172,41 @@ function FirebaseUpdateTab(props) {
 								**/
 								dispatch(saveStripePlan({ uid: user.uid, data: planRes.data })).then(() => {
 									dispatch(setStripe({ ...stripe, planId: plan.id }));
-									history.push({ pathname: '/pages/profile/billing' });
+									if(subscription.length === 0) {
+										dispatch(createSubscription1({ user, stripe: { ...stripe, planId: plan.id } })).then((res) => {
+											const response = res.payload;
+			
+											/*
+												update a subscription data with firebase
+											**/
+											dispatch(saveSubscription({ uid: user.uid, data: response.data })).then(() => {
+												history.push({ pathname: '/pages/profile/billing' });
+											});   								
+										});
+									} else {
+										history.push({ pathname: '/pages/profile/billing' });
+									}
 								});								
 							}).catch(() => {								
 								showMessage({ message: 'Failed to create a new plan on Stripe' });
 								setLoading(false)
 							});
-						} else {								
+						} else {					
 							dispatch(setStripe({ ...stripe, planId: plan.id }));
-							history.push({ pathname: '/pages/profile/billing' });
+							if(subscription.length === 0) {
+								dispatch(createSubscription1({ user, stripe: { ...stripe, planId: plan.id } })).then((res) => {
+									const response = res.payload;
+	
+									/*
+										update a subscription data with firebase
+									**/
+									dispatch(saveSubscription({ uid: user.uid, data: response.data })).then(() => {
+										history.push({ pathname: '/pages/profile/billing' });
+									});   								
+								});
+							} else {
+								history.push({ pathname: '/pages/profile/billing' });
+							}
 						}					
 					}).catch(() => {
 						showMessage({ message: 'Failed to connect on Stripe' });

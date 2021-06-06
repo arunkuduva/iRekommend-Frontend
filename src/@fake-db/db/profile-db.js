@@ -117,7 +117,7 @@ mock.onGet('/api/profile-app/subscription').reply(params => {
 	})
 });
 
-mock.onPost('/api/profile-app/subscription/save').reply(request => { console.log('==============', request.data)
+mock.onPost('/api/profile-app/subscription/save').reply(request => { 
 	const { uid, data } = JSON.parse(request.data); 
 	firebaseService.db.ref(`subscriptions/${uid}/${data.response.id}`).set({ 
 		id: data.response.id,
