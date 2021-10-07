@@ -23,6 +23,18 @@ import 'firebase/storage';
 import { downloadURL, file_downloads } from 'app/utils';
 import { API_URL } from 'app/fuse-configs/endpointConfig';
 
+
+import AppBar from '@material-ui/core/AppBar';
+import Avatar from '@material-ui/core/Avatar';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
+import Icon from '@material-ui/core/Icon';
+import IconButton from '@material-ui/core/IconButton';
+import Toolbar from '@material-ui/core/Toolbar';
+import {ShowRecommendations1}	from './showRecommendations1'
+import firebaseService from 'app/services/firebaseService';
+
+
 const TMY = {
 	T: [ 'Trial', 'Trial' ],
 	M: [ 'Month to Date', 'Monthly' ],
@@ -97,11 +109,15 @@ const useStyles = makeStyles(theme => ({
 	}
 }));
 
-const DashboardApp = props => {
+const DashboardApp = (props,a,b)  => {
 	const dispatch = useDispatch();
 	const classes = useStyles(props);
 	const pageLayout = useRef(null);
 	const [widgets, setWidgets] = useState(w);
+	const [enableRecommendButton , setenableRecommendButton] = useState(false)
+	const [ShowRecommendations , setShowRecommendations] = useState(false)
+	const [roleDescription , setRoleDescription] = useState('')
+	const [general , setGeneral] = useState([])
 	const user = useSelector(({ auth }) => auth.user);
 	const files = useSelector(selectFiles); 
 	const [fromDate, setFromDate] = useState(moment().date(1));
@@ -186,10 +202,49 @@ const DashboardApp = props => {
 		file_downloads(urls)
 	}
 
-	if(loading) {
-		return <FuseLoading />
-	}
+	// if(loading) {
+	// 	return <FuseLoading />
+	// }
 	  
+				// let	l_general = 
+				// 	[
+				// 	{fileName : 'Arun.docx', RelevancyScore : '1' , explanableAI:' loren ipsumsk s;fdads dfhasljg ljsadflskjg loren ipsumsk s;fdads dfhasljg ljsadflskjg loren ipsumsk s;fdads dfhasljg ljsadflskjg loren ipsumsk s;fdads dfhasljg ljsadflskjg', relevantSkills: 'React , Amgular, Vue', githubLink : 'github.com'},
+				// {fileName : 'prem.docx', RelevancyScore : '400' , explanableAI:' loren ipsumsk s;fdads dfhasljg ljsadflskjg loren ipsumsk s;fdads dfhasljg ljsadflskjg loren ipsumsk s;fdads dfhasljg ljsadflskjg', relevantSkills: 'React , Amgular, Vue',githubLink : 'github.com'},
+				// {fileName : 'kuduva.docx', RelevancyScore : '400' , explanableAI:' loren ipsumsk s;fdads dfhasljg ljsadflskjg loren ipsumsk s;fdads dfhasljg ljsadflskjg loren ipsumsk s;fdads dfhasljg ljsadflskjg',relevantSkills: 'React , Amgular, Vue', githubLink : 'github.com'}
+				// 	]
+	
+	const handleChange = event => {
+    		//this.setState({value: event.target.value});
+			setenableRecommendButton(true)
+			setRoleDescription(event.target.value)
+			console.log('inside handle change ' || event.target.value)
+  }
+	
+  const handleRecommendations = async (event) =>{
+
+	await setShowRecommendations(true)
+	console.log('inside handleRecommendations')
+	setLoading(true);
+	const data = await axios.get('https://irekommend-ml-code-lle.uc.r.appspot.com/role-resume-matching' ,{params: {role_title: 'developer',
+        role_desc:roleDescription,
+      //  role_location: 'NA',
+      //  education_level:'NA',
+        years_of_exp_required: 'NA',
+        resume_last_updated_range:'NA',
+        user_email:firebaseService.auth.currentUser.email }
+  			}
+    )
+	setLoading(false);
+	console.log(data.data)
+	await setGeneral(data.data)
+
+    
+  }
+
+//     console.log('printing roleDescription')
+
+//   console.log(roleDescription)
+
 	return (
 		<FusePageSimple
 			classes={{
@@ -203,84 +258,36 @@ const DashboardApp = props => {
 				</div>
 			}
 			content={
-				<div className='p-12'>
-					<FuseAnimateGroup
-						className="flex flex-wrap"
-						enter={{
-							animation: 'transition.slideUpBigIn'
-						}}
-					>
-						<div className="widget flex w-full sm:w-1/2 md:w-1/4 p-12">
-							<Widget1 widget={widgets.widget1} />
-						</div>
-						<div className="widget flex w-full sm:w-1/2 md:w-1/4 p-12">
-							<Widget1 widget={widgets.widget2} />
-						</div>
-						<div className="widget flex w-full sm:w-1/2 md:w-1/4 p-12">
-							<Widget1 widget={widgets.widget3} />
-						</div>
-						<div className="widget flex w-full sm:w-1/2 md:w-1/4 p-12">
-							<Widget1 widget={widgets.widget4} />
-						</div>
-					</FuseAnimateGroup>
-					<FuseAnimateGroup
-						className="flex flex-wrap p-12"
-						style={{ display: 'flex', flexDirection: 'column' }}
-						enter={{
-							animation: 'transition.slideUpBigIn'
-						}}
-					>
-						<div className={classes.paper}>
-							<Paper elevation={1}>
-								<Typography>Your previous recommendations are available to download here</Typography>
-							</Paper>
-						</div>
-						<div className={classes.calendar}>
-							<Paper>
-								<MuiPickersUtilsProvider utils={DateFnsUtils}>
-									<div className="text-center pt-12 pb-28">
-										<KeyboardDatePicker
-											disableToolbar
-											variant="inline"
-											format="MM/dd/yyyy"
-											margin="normal"
-											id="date-picker-inline"
-											label="Date picker inline"
-											value={fromDate}
-											onChange={handleFromDateChange}
-											KeyboardButtonProps={{
-												'aria-label': 'change date'
-											}}
-											style={{ padding: 5 }}
-										/>
-										<KeyboardDatePicker
-											disableToolbar
-											variant="inline"
-											format="MM/dd/yyyy"
-											margin="normal"
-											id="date-picker-inline"
-											label="To date"
-											value={toDate}
-											onChange={handleToDateChange}
-											KeyboardButtonProps={{
-												'aria-label': 'change date'
-											}}
-											style={{ padding: 5 }}
-										/>
-									</div>
-								</MuiPickersUtilsProvider>
-							</Paper>
-						</div>
-					</FuseAnimateGroup>
-					<FuseAnimateGroup>
-						<div className="text-center pt-12 pb-28">
-							<Typography className="text-15" color="textSecondary">
-								<Button variant="contained" size="large" startIcon={<SaveIcon />} onClick={handleDownload} >
-									Download
+				<div>
+					<label className="p-24 block text-left" >
+  						<span className="text-gray-700 rounded-lg">Please enter your Role Description here</span>
+ 						 <textarea className="form-textarea mt-1 block w-full rounded-lg" rows="7" 
+						  name={roleDescription}
+						  value={roleDescription}
+						  onChange={handleChange}
+						  placeholder="Enter some Job description"></textarea>
+					</label> 
+					<div className='p-24 block'>
+							<Button 
+									variant="contained" 
+									color="primary" 
+									disabled = {!enableRecommendButton}
+									//disabled={resumeFileName ? false : true} 
+									//disabled={email && trialState>0 ? false : true} 
+									onClick={handleRecommendations}
+								>
+									{`Show recommendations`}
 								</Button>
-							</Typography>
-						</div>
-					</FuseAnimateGroup>
+					</div>
+					
+
+				{ShowRecommendations  && general.map((general1, index)=>
+					 (
+					<ShowRecommendations1 general = {general1}
+				 />
+					))
+					}
+					{loading &&<FuseLoading />}
 				</div>
 			}
 			ref={pageLayout}

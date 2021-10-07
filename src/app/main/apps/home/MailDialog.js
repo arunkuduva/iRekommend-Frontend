@@ -129,9 +129,11 @@ function AddUserDialog(props) {
 							url1: pyTemplateFilePath,
 							url2: pyResumeFilePath,
 							user_email: authUser.data.email,
-							recc_email: form.email
+							recc_email: form.email,
+							email_or_api : 'email'
 						}
 					}).then((response) => {
+						console.log('PY_FILES_API_ENDPOINT');
 						console.log(response.data);
 					}).catch((err) => {
 						console.log(err);

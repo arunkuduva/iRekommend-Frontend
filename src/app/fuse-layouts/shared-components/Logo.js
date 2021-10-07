@@ -33,7 +33,7 @@ function Logo() {
 		<div className={clsx(classes.root, 'flex items-center')}>
 			<img className="logo-icon" src="assets/images/logos/fuse.svg" style={{width: 40, height: 45}} alt="logo" />
 			<Typography className="text-16 mx-12 font-light logo-text" color="inherit">
-				JobSage
+				iRekommend
 			</Typography>
 		</div>
 	);

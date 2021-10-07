@@ -12,14 +12,14 @@ i18next.addResourceBundle('ar', 'navigation', ar);
 const navigationConfig = [
 	{
 		id: 'jobsage',
-		title: 'JobSage',
-		translate: 'JOBSAGE',
+		title: 'iRekommend',
+		translate: 'iRekommend',
 		type: 'group',
 		icon: 'apps',
 		children: [
 			{
 				id: 'analytics-dashboard',
-				title: 'Home',
+				title: 'Upload Resume',
 				type: 'item',
 				icon: 'assessment',
 				url: '/apps/home'
@@ -27,17 +27,18 @@ const navigationConfig = [
 			{
 				icon: 'dashboard',
 				id: 'project-dashboard',
-				title: 'Dashboard',
+				title: 'Find Candidates',
 				type: 'item',
 				url: '/apps/dashboard'
-			},
-			{
-				icon: 'upgrade',
-				id: 'upgrade',
-				title: 'Upgrade',
-				type: 'item',
-				url: '/pages/profile/profile'
-			},
+			}
+			// ,
+			// {
+			// 	icon: 'upgrade',
+			// 	id: 'upgrade',
+			// 	title: 'Upgrade',
+			// 	type: 'item',
+			// 	url: '/pages/profile/profile'
+			// },
 		]
 	},
 ];

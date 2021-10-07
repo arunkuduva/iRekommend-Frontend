@@ -1,6 +1,7 @@
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/database';
+import 'firebase/storage'
 import config from './firebaseServiceConfig';
 
 class FirebaseService {
@@ -18,12 +19,32 @@ class FirebaseService {
 		if (firebase.apps.length) {
 			return;
 		}
-		firebase.initializeApp(config);
+		this.firestoredb = firebase.initializeApp(config);
 		this.db = firebase.database();
+		
 		this.auth = firebase.auth();
 		success(true);
-	}
+	};
 
+	signInWithCustomToken = (token) =>{
+
+		const auth = this.firebase.getAuth();
+
+		this.firebase.signInWithCustomToken(auth, token)
+			.then((userCredential) => {
+				// Signed in
+				const user = userCredential.user;
+				console.log('signInWithCustomToken')
+				console.log(userCredential)
+				// ...
+			})
+			.catch((error) => {
+				const errorCode = error.code;
+				const errorMessage = error.message;
+				// ...
+			});
+	}
+	
 	getUserData = userId => {
 		if (!firebase.apps.length) {
 			return false;

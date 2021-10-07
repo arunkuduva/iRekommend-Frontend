@@ -338,7 +338,7 @@ function FirebaseUpdateTab(props) {
 				<div className="flex flex-col items-center justify-center pb-32">
 					<Typography>
 						<span className="font-medium mr-8">Reach out to</span>
-						<a className="font-medium mr-8" href='mailto:arvind@jobsage.app'>Arvind@jobsage.app</a>  
+						<a className="font-medium mr-8" href='mailto:sales@irekommend.com'>sales@irekommend.com</a>  
 						<span className="font-medium">for your promo code</span>		
 					</Typography>				
 				</div>

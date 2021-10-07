@@ -47,7 +47,7 @@ function Widget4(props) {
 					<Link 
 						onClick={() => { 
 							window.location.href = 
-								`https://firebasestorage.googleapis.com/v0/b/jobsage-sai-ui-firebase-001.appspot.com/o/Roles%2FRoles_template.xlsx?alt=media&token=d7d043b3-a9d8-4c18-a355-d771c46c895a`; 
+								`https://storage.googleapis.com/jobsage-sai-downloadable-templates/Roles_template.xlsx`; 
 						}}>
 						here...
 					</Link>

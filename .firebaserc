@@ -1,5 +1,11 @@
 {
   "projects": {
-    "default": "jobsage-sai-ui-firebase-001"
+    "default": "jobsage-sai-ui-firebase-001",
+    "secondary": "jobsage-sai-ui-firebase-001",
+    "primary": "jobsage-sai-ui-bcp-001",
+    "staging": "jobsage-sai-ui-firebase-001",
+    "rekommender-dev": "rekommender-portal-lle",
+    "jobsageprod": "jobsage-sai-ui-firebase-001",
+    "demo": "irekommend-ai-demo-instance"
   }
 }

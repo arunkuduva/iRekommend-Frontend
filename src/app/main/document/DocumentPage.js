@@ -48,7 +48,7 @@ function DocumentPage() {
 			>				
 				<FuseAnimate animation="transition.slideUpIn" duration={400} delay={100}>
 					<Typography color="inherit" className="text-36 sm:text-56 font-light">
-						{documentId==='1' ? 'TERMS & CONDITIONS OF JOBSAGE' : 'Privacy Policy'}
+						{documentId==='1' ? 'TERMS & CONDITIONS OF iRekommend' : 'Privacy Policy'}
 					</Typography>
 				</FuseAnimate>				
 			</div>

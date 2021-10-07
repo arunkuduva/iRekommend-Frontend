@@ -40,7 +40,7 @@ function Aboutus() {
 			>
 				<FuseAnimate animation="transition.slideUpIn" duration={400} delay={100}>
 					<Typography color="inherit" className="text-36 sm:text-56 font-light">
-						About us
+						About Us
 					</Typography>
 				</FuseAnimate>
 

@@ -170,6 +170,11 @@ export const updateUserSettings = settings => async (dispatch, getState) => {
 	return dispatch(setUserData(user));
 };
 
+export const getUserData = settings => async (dispatch, getState) => {
+	return getState().auth.user;
+	
+};
+
 export const updateUserShortcuts = shortcuts => async (dispatch, getState) => {
 	const { user } = getState().auth;
 	const newUser = {

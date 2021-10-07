@@ -1,0 +1,97 @@
+.carrousel-parent {
+	overflow-x: scroll;
+	overflow-y: visible;
+	padding-bottom: 50px;
+	margin-bottom: 50px;
+	padding-top: 50px;
+	margin-top: -50px;
+	margin-left: -50px;
+	margin-right: -75px;
+}
+.carrousel-parent::-webkit-scrollbar {
+	display: none;
+}
+.carrousel-parent {
+	-ms-overflow-style: none; /* IE and Edge */
+	scrollbar-width: none; /* Firefox */
+}
+.carrousel-child {
+	white-space: nowrap;
+	padding-left: 50px;
+	padding-right: 100px;
+}
+.carrousel-parent .box.profile {
+	width: 250px;
+	pointer-events: initial;
+	white-space: initial;
+}
+.carrousel-parent .box.profile img.avatar {
+	width: 220px;
+	height: 220px;
+}
+.box.profile {
+	transition: transform 0.05s;
+	position: relative;
+	vertical-align: top;
+	box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.075);
+	padding: 14px;
+	border-radius: 6px;
+	/*border:1px solid #ddd;*/
+	height: auto;
+	display: inline-block;
+	background: #fff;
+	margin: 14px;
+	margin-left: 7px;
+	margin-right: 7px;
+	text-align: center;
+	cursor: pointer;
+	width: calc(20% - 28px);
+	min-height: 520px;
+	box-shadow: 0 0 0 1px var(--input-border-color), 0 2px 4px 0 rgb(0 0 0 / 7%), 0 1px 1.5px 0 rgb(0 0 0 / 5%) !important;
+	border: none;
+}
+@media (max-width: 1100px) {
+	.page {
+		border-radius: 0;
+		border: none;
+		max-width: 1100px;
+	}
+	.box.profile {
+		width: calc(25% - 28px);
+	}
+}
+.box.profile:hover {
+	box-shadow: 1px 2px 16px rgba(0, 0, 0, 0.15);
+	background: #f5f5f5;
+	/*opacity:0.75;*/
+	transform: scale(1.15) !important;
+	z-index: 100;
+	position: relative;
+}
+.box.profile.verified {
+	/*background:#fff9c9;*/
+}
+.available_for_work .button {
+	position: absolute;
+	display: block;
+	bottom: 21px;
+	width: calc(100% - 28px - 14px);
+}
+.online-now-badge {
+	width: 18px;
+	height: 18px;
+	background: #16bf63;
+	border-radius: 100%;
+	position: absolute;
+	right: -9px;
+	bottom: -9px;
+	border: 2px solid #fff;
+}
+.logos {
+	display: block;
+	width: 100vw;
+	text-align: center;
+	padding: 14px;
+	margin-bottom: -30px;
+	margin-top: -20px;
+}

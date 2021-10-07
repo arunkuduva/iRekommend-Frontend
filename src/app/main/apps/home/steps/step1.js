@@ -11,7 +11,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import reducer from '../store';
 import { selectProjects, getProjects, setEmail, setIsFileUploadCompleted } from '../store/projectsSlice';
 import { getWidgets, selectWidgets } from '../store/widgetsSlice';
-
 import Widget3 from '../widgets/Widget3';
 import Widget4 from '../widgets/Widget4';
 
@@ -48,9 +47,9 @@ function Step1(props) {
 				<div className="widget flex w-full sm:w-1/2 md:w-1/2 p-12">
 					<Widget3 onStateChanged={props.onStateChanged} />
 				</div>
-				<div className="widget flex w-full sm:w-1/2 md:w-1/2 p-12">					
+				{/* <div className="widget flex w-full sm:w-1/2 md:w-1/2 p-12">					
 					<Widget4 onStateChanged={props.onStateChanged} />
-				</div>
+				</div> */}
 			</FuseAnimateGroup>
 			<FuseAnimateGroup
 				className="flex flex-wrap"
@@ -59,7 +58,7 @@ function Step1(props) {
 				}}
 				style={{ justifyContent: 'center' }}
 			>
-				<div className="widget flex w-full sm:w-1 md:w-1/2 p-16" style={{ marginBottom: 30 }}>
+				{/* <div className="widget flex w-full sm:w-1 md:w-1/2 p-16" style={{ marginBottom: 30 }}>
 					<Formsy ref={formRef} className="flex flex-col justify-center w-full">
 						<Typography className='px-2 pb-5'>Enter your email to send recommendations</Typography>
 						<TextFieldFormsy
@@ -86,7 +85,7 @@ function Step1(props) {
 							required
 						/> 	
 					</Formsy>
-				</div>
+				</div> */}
 			</FuseAnimateGroup>
 		</div>
 	);

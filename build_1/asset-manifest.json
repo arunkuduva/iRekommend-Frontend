@@ -1,0 +1,39 @@
+{
+  "files": {
+    "main.css": "/static/css/main.bf59dbe6.chunk.css",
+    "main.js": "/static/js/main.46f441cd.chunk.js",
+    "runtime-main.js": "/static/js/runtime-main.cd1e6f10.js",
+    "static/css/2.d4b23571.chunk.css": "/static/css/2.d4b23571.chunk.css",
+    "static/js/2.13e2f7ab.chunk.js": "/static/js/2.13e2f7ab.chunk.js",
+    "static/js/3.a7d2a291.chunk.js": "/static/js/3.a7d2a291.chunk.js",
+    "static/css/4.556f6031.chunk.css": "/static/css/4.556f6031.chunk.css",
+    "static/js/4.452594c2.chunk.js": "/static/js/4.452594c2.chunk.js",
+    "static/css/5.01dae555.chunk.css": "/static/css/5.01dae555.chunk.css",
+    "static/js/5.c4065a6f.chunk.js": "/static/js/5.c4065a6f.chunk.js",
+    "static/js/6.74a6411d.chunk.js": "/static/js/6.74a6411d.chunk.js",
+    "static/js/7.15e70290.chunk.js": "/static/js/7.15e70290.chunk.js",
+    "static/css/8.a3af12ed.chunk.css": "/static/css/8.a3af12ed.chunk.css",
+    "static/js/8.4356cd8c.chunk.js": "/static/js/8.4356cd8c.chunk.js",
+    "static/js/9.7be35794.chunk.js": "/static/js/9.7be35794.chunk.js",
+    "static/js/10.864acf49.chunk.js": "/static/js/10.864acf49.chunk.js",
+    "static/js/11.ca0f5905.chunk.js": "/static/js/11.ca0f5905.chunk.js",
+    "static/js/12.57137f5c.chunk.js": "/static/js/12.57137f5c.chunk.js",
+    "static/js/13.54d720c7.chunk.js": "/static/js/13.54d720c7.chunk.js",
+    "static/js/14.43a2cd77.chunk.js": "/static/js/14.43a2cd77.chunk.js",
+    "index.html": "/index.html",
+    "precache-manifest.36d808ee728018c9cda72fdc21fead9c.js": "/precache-manifest.36d808ee728018c9cda72fdc21fead9c.js",
+    "service-worker.js": "/service-worker.js",
+    "static/js/2.13e2f7ab.chunk.js.LICENSE.txt": "/static/js/2.13e2f7ab.chunk.js.LICENSE.txt",
+    "static/js/3.a7d2a291.chunk.js.LICENSE.txt": "/static/js/3.a7d2a291.chunk.js.LICENSE.txt",
+    "static/js/4.452594c2.chunk.js.LICENSE.txt": "/static/js/4.452594c2.chunk.js.LICENSE.txt",
+    "static/media/index.css": "/static/media/muli-latin-900italic.fb9b3ba4.woff2",
+    "static/media/styles.css": "/static/media/revicons.2feb69cc.eot"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.cd1e6f10.js",
+    "static/css/2.d4b23571.chunk.css",
+    "static/js/2.13e2f7ab.chunk.js",
+    "static/css/main.bf59dbe6.chunk.css",
+    "static/js/main.46f441cd.chunk.js"
+  ]
+}

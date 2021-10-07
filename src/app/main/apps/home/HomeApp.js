@@ -1,5 +1,10 @@
 import FuseAnimateGroup from '@fuse/core/FuseAnimateGroup';
 import FusePageSimple from '@fuse/core/FusePageSimple';
+import Card from '@material-ui/core/Card';
+import Toolbar from '@material-ui/core/Toolbar';
+import AppBar from '@material-ui/core/AppBar';
+
+import CardContent from '@material-ui/core/CardContent';
 import Hidden from '@material-ui/core/Hidden';
 import Icon from '@material-ui/core/Icon';
 import IconButton from '@material-ui/core/IconButton';
@@ -19,9 +24,20 @@ import MailDialog from './MailDialog';
 import axios from 'axios';
 import { API_URL } from 'app/fuse-configs/endpointConfig';
 import { logoutUser } from 'app/auth/store/userSlice';
+import { DataGrid } from '@material-ui/data-grid';
+import * as userSliceData from 'app/auth/store/userSlice';
+import * as loginSliceData from 'app/auth/store/loginSlice';
+
+
+import firebaseService from 'app/services/firebaseService';
+
 
 import Step1 from './steps/step1';
 import Step2 from './steps/step2';
+import Step3 from './steps/step3';
+//import FirebaseService from 'app/services/firebaseService';
+
+//import { app1 } from "./firebase";
 
 const useStyles = makeStyles(theme => ({
 	content: {
@@ -54,6 +70,16 @@ function ProjectDashboardApp(props) {
 	const [activeStep, setActiveStep] = useState(0);
 	const [trialState, setTrialState] = useState(0);
 
+	const [fileUrl, setFileUrl] = useState('');
+  	const [users, setUsers] = React.useState([]);
+	// console.log('email at the start' || user  || ' ')
+	// console.log('userSliceData at the start' )
+	// console.log(userSliceData.getUserData())
+
+	// console.log('userSliceData at the start' )
+	// console.log(loginSliceData)
+	
+
 	useEffect(() => {
 		if(!user.data.emailVerified) {
 			dispatch(logoutUser());
@@ -67,7 +93,10 @@ function ProjectDashboardApp(props) {
 	}, []);
 
 	function getSteps() {
-		return ['Upload Resume & Roles', 'Download Recommendations'];
+		return ['Upload Resume & Roles'
+		//, 'Download Recommendations'
+//	, 'Select Matching Candidates'
+	];
 	}
 
 	const steps = getSteps();
@@ -84,15 +113,76 @@ function ProjectDashboardApp(props) {
 		setActiveStep(prevActiveStep => prevActiveStep - 1);
 	};
 
+	const onSubmit = async (e) => {
+	
+		console.log('resume uploaded')
+	}
+
+	const onFileChange = async (e) => {
+				const file = e.target.files[0];
+ 				const storageRef = firebaseService.firestoredb.storage().ref();
+
+			//	const storageRef = firebaseService.storage().ref();
+				const fileRef = await storageRef.child(`Files/${file.name}`);
+				console.log('file.name ' + e.target.files[0])
+				await fileRef.put(file);
+				console.log(storageRef)
+				console.log(fileRef.storage)
+				console.log(fileRef.fullPath)
+				console.log(fileRef.getMetadata())
+
+				const fileDownladURL = await fileRef.getDownloadURL()
+				
+				setFileUrl(fileDownladURL);
+
+				console.log('fileDownladURL ' + fileUrl);
+				handleResumeParser(fileDownladURL)
+  };
+
+
+	const handleResumeParser = async (fileDownladURL) => {
+		console.log('handle resue parse')
+
+		console.log( firebaseService.auth.currentUser.email)
+		// const storageRef = firebaseService.firestoredb.storage().ref()
+		// // const storageRef = firebaseService.firestoredb.storage().ref();
+
+		//  const fileRef = storageRef.child(resumeFileName);
+		//  await fileRef.put(resumeFileName);
+		//  setFileUrl(await fileRef.getDownloadURL());
+
+//		 console.log('fileUrl ' || resumeFileName  || ' ' || fileUrl)
+			console.log('email ' + email  + ' ')
+			axios.get('https://irekommend-ml-code-lle.uc.r.appspot.com/process-only-resumes' ,{params: {
+					url1: fileDownladURL, //'gs://jobsage-sai-temp/test_resume_28.06.2021.zip',
+					user_email: firebaseService.auth.currentUser.email }// 'arvindrkrishnen11@gmail.com'}
+				}
+				)
+				.then ((data)=> {
+					console.log('rekommender call completed ')
+					console.log(data.data)
+				})
+				.catch((e)=>{
+							console.log(e)
+				})
+
+	}
 	function getStepContent(stepIndex) {
 		switch (stepIndex) {
 			case 0:
 				return <Step1 />;
 			case 1:
 				return <Step2 />;
+			// case 2:
+			// 	return <Step3 />;
 			default:
 				return 'Unknown stepIndex';
 		}
+	}
+
+	const showRecommendationsOnline = () =>{
+
+
 	}
 
 	return (
@@ -104,11 +194,20 @@ function ProjectDashboardApp(props) {
 					content: classes.content
 				}}
 				header={
-					<div className="p-24">
-						<h3>{`Welcome ${user.data.displayName}!`}</h3>
-					</div>
+					<Card className="w-full mb-16 rounded-8 shadow">
+						<AppBar position="static" elevation={0}>
+								<Toolbar className="px-8">
+									<div className="p-24 rounded-8 shadow">
+									<h3>{`Welcome ${user.data.displayName}!`}</h3>
+									</div>
+								</Toolbar>
+						</AppBar>
+					</Card>
+					
 				}
 				content={
+
+							
 					<div className="p-12">
 						<div className='p-12'>
 							<Stepper activeStep={activeStep} alternativeLabel>
@@ -122,8 +221,16 @@ function ProjectDashboardApp(props) {
 						<div>
 							<Typography className={classes.instructions}>{getStepContent(activeStep)}</Typography>
 							<div style={{ position: 'absolute', bottom: 20, right: 20 }}>
+							
+							{/* <form onSubmit={onSubmit}>
+								<input type="file" onChange={onFileChange} />
+								<input type="text" name="username" placeholder="NAME" />
+								<button>Submit</button>
+							</form> */}
+
 							{activeStep === 1 ?
-								<Button 
+								<div>
+									<Button 
 									variant="contained" 
 									color="primary" 
 									disabled={!isFileUploadCompleted} 
@@ -131,19 +238,35 @@ function ProjectDashboardApp(props) {
 									className={classes.backButton}
 								>
 									Back
-								</Button> :																
-								<Button 
+								</Button>
+								{/* <Button 
 									variant="contained" 
 									color="primary" 
-									disabled={resumeFileName && templateFileName && email && trialState>0 ? false : true} 
-									onClick={openDialog}
+									//disabled={resumeFileName && templateFileName && email && trialState>0 ? false : true} 
+									onClick={handleNext}
 								>
 									{`Continue`}
-								</Button>
+								</Button> */}
+								</div>
+									 :																
+								// <Button 
+								// 	variant="contained" 
+								// 	color="primary" 
+								// 	disabled={resumeFileName ? false : true} 
+								// 	//disabled={email && trialState>0 ? false : true} 
+								// 	//onClick={handleResumeParser}
+								// >
+								// 	{`Parse Resume`}
+								// </Button>
+								<div>
+									</div>
+							
 							}
+							
 							</div>
 						</div>
 					</div>
+
 				}
 				ref={pageLayout}
 			/>

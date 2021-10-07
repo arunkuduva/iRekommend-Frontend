@@ -67,7 +67,7 @@ function Step2(props) {
 						}}
 					>
 						<Typography variant="h5" gutterBottom>
-							{`Your recommendations have been sent to ${state.email}`}
+							{`Your recommendations would be sent to ${state.email}`}
 						</Typography>
 					</FuseAnimateGroup>
 					<FuseAnimateGroup

@@ -13,7 +13,7 @@ import withReducer from 'app/store/withReducer';
 import reducer from '../store';
 import { showMessage } from "app/store/fuse/messageSlice";
 import axios from 'axios';
-import { API_URL, FIREBASE_FUNCTION_API_ENDPOINT } from 'app/fuse-configs/endpointConfig';
+import { API_URL, FIREBASE_FUNCTION_API_ENDPOINT, REKOMMENDER_BACKEND_CLOUD_API_URL } from 'app/fuse-configs/endpointConfig';
 import { deleteSubscription, getSubscription, saveSubscription, selectSubscriptions, createSubscription1, updateSubscription1 } from "../store/subscriptionsSlice";
 import { getMailBody } from 'app/utils';
 
@@ -161,6 +161,7 @@ function CreditCard(props) {
     /*
       create a customer and a subscription on stripe with a token created by credit card number and planId
     **/
+   console.log('createSubscription1  ' )
     dispatch(createSubscription1({user, stripe, token})).then((res) => {
       const response = res.payload;
 
@@ -168,10 +169,20 @@ function CreditCard(props) {
         update a subscription data with firebase
       **/
       dispatch(saveSubscription({ uid: user.uid, data: response.data }));          
-
+      axios.post(`${REKOMMENDER_BACKEND_CLOUD_API_URL}/jobsage-sai-cust-dash-promocode-upd-cors`, {
+                                parm_user_mail:"arvind.1983.sai@gmail.com",
+                                parm_code:"YLY2022"}
+                              )
+                          .then((data)=>{
+                                console.log('Rekommender after dashboard update '+data.data)
+                              })
+                          .catch((err)=>{
+                            console.log('err ' + err)
+                          })
       /*
         send a invoice mail to user's email address
       **/
+     console.log('response data ' + JSON.stringify(response.data))
       const invoiceId = response.data.response.latest_invoice;
       sendInvoiceMail(invoiceId);                  
     }).catch((error) => {
@@ -262,10 +273,19 @@ function CreditCard(props) {
         check if promo-code is updated
       **/
       if(user.data.promoCode !== subscription[0].response.plan.nickname) { 
-        axios.post(`${FIREBASE_FUNCTION_API_ENDPOINT}/cancelSubscription`, { id: subscription[0].id }).then(() => {
+        axios.post(`${FIREBASE_FUNCTION_API_ENDPOINT}/cancelSubscription-1`, { id: subscription[0].id })
+        .then(() => {
           dispatch(deleteSubscription({ uid: user.uid, subId: subscription[0].id })).then(() => {
             createCustomerAndSubscription();
           });          
+        })
+        .catch((err)=> {
+          console.log('unable to cancel subscription ' + err)
+          setLoading(false);
+          dispatch(showMessage({ 
+            message: 'There was error processing your request. Please contact iRekommend Support', 
+            variant: 'warning' 
+          }));
         });
       } else {                
         updateSubscription();  

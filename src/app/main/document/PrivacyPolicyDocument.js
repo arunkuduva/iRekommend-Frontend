@@ -20,7 +20,7 @@ function TermsAndConditionsContent(props) {
 			<Typography className={classes.title} variant="h6">Effective: 01st June, 2021</Typography>
 
 			<Typography className={classes.body} variant="body2">
-				In this Privacy Policy, “we”, “us”, “our” or “Jobsage” refers to Jobsage
+				In this Privacy Policy, “we”, “us”, “our” or “iRekommend” refers to iRekommend
 				LLC. located at 6064 Cloverdale, Dr Tega Cay, South Carolina, 29708.
 				“Client,” “customer,” refer to the entity using our services and “user” or
 				“service user” refers to the persons, identified by individual usernames
@@ -36,7 +36,7 @@ function TermsAndConditionsContent(props) {
 				privacy of third party personal information provided to us by our service
 				users and/or customers, we undertake no legal obligation regarding the
 				privacy of third party information. The third parties whose information is
-				provided to us are nor users, service users, or customers of Jobsage.
+				provided to us are nor users, service users, or customers of iRekommend.
 			</Typography>
 			<Typography className={classes.body} variant="body2">
 				3. Safeguarding the privacy of third party personal information is the
@@ -57,10 +57,10 @@ function TermsAndConditionsContent(props) {
 				consent to our use of cookies when you first visit our website.
 			</Typography>
 			<Typography className={classes.body} variant="body2">
-				6. Jobsage LLC. is a limited liability company registered under the
+				6. iRekommend LLC. is a limited liability company registered under the
 				provincial laws of South Carolina, United States. This Privacy Policy refers
 				to all websites that we own and operate, including the websites located at
-				jobsage.app and all related websites, our applications and/or APIs, and
+				iRekommend.app and all related websites, our applications and/or APIs, and
 				online services (our “Website”), as well as our other services, offerings,
 				and other interactions (e.g., customer service inquiries, user
 				collaborations, etc.) you may have with us (together with our Website,
@@ -83,13 +83,13 @@ function TermsAndConditionsContent(props) {
 			<Typography className={classes.title} variant="h6">SOURCES OF DATA</Typography>
 
 			<Typography className={classes.body} variant="body2">
-				1. Subject to the explanation below, Jobsage generally collects, uses and
+				1. Subject to the explanation below, iRekommend generally collects, uses and
 				discloses personal information about the following types of individuals:
 			</Typography>
 			<Typography className={classes.body} variant="body1">1. Customers;</Typography>
 			<Typography className={classes.body} variant="body1">2. Consultants;</Typography>
 			<Typography className={classes.body} variant="body1">
-				3. Other individuals who may voluntarily choose to provide Jobsage with
+				3. Other individuals who may voluntarily choose to provide iRekommend with
 				personal information; and/or
 			</Typography>
 			<Typography className={classes.body} variant="body1">
@@ -214,7 +214,7 @@ function TermsAndConditionsContent(props) {
 
 			<Typography className={classes.body} variant="body1">
 				1. Monitor the use of the Website for the technical administration of the
-				AKP Solutions, Experts Connect or Jobsage websites;
+				AKP Solutions, Experts Connect or iRekommend websites;
 			</Typography>
 			<Typography className={classes.body} variant="body1">
 				2. Use cookies to better understand how You interact with the Website, to
@@ -240,7 +240,7 @@ function TermsAndConditionsContent(props) {
 			</Typography>
 			<Typography className={classes.body} variant="body1">7. to conduct surveys, research and evaluations;</Typography>
 			<Typography className={classes.body} variant="body1">
-				8. to develop, enhance, market, sell or otherwise provide Jobsage products
+				8. to develop, enhance, market, sell or otherwise provide iRekommend products
 				and services;
 			</Typography>
 			<Typography className={classes.body} variant="body1">
@@ -254,7 +254,7 @@ function TermsAndConditionsContent(props) {
 			</Typography>
 			<Typography className={classes.body} variant="body1">11. to develop and manage our business and operations;</Typography>
 			<Typography className={classes.body} variant="body1">
-				12. to detect and protect Jobsage and other third parties against error,
+				12. to detect and protect iRekommend and other third parties against error,
 				negligence, breach of contract, fraud, theft and other illegal activity;
 			</Typography>
 			<Typography className={classes.body} variant="body1">
@@ -283,7 +283,7 @@ function TermsAndConditionsContent(props) {
 			<Typography className={classes.body} variant="body2">
 				3. We may disclose personal, marketing, and business data to our IT
 				suppliers or subcontractors insofar as reasonably necessary for the services
-				provided by Jobsage LLC.
+				provided by iRekommend LLC.
 			</Typography>
 			<Typography className={classes.body} variant="body2">
 				4. In addition to the specific disclosures of personal data set out in this
@@ -330,23 +330,23 @@ function TermsAndConditionsContent(props) {
 			<Typography className={classes.title} variant="h6">NOTIFICATIONS AND CONSENT</Typography>
 
 			<Typography className={classes.body} variant="body2">
-				1. Subject to this Policy and applicable legislation, Jobsage will identify
+				1. Subject to this Policy and applicable legislation, iRekommend will identify
 				the purposes for collection, use and disclosure in advance of collection,
 				and will notify the individual of the purposes for collection, use or
 				disclosure at or before the time of collection.
 			</Typography>
 			<Typography className={classes.body} variant="body2">
-				2. Jobsage will generally obtain consent from the individual at or before
+				2. iRekommend will generally obtain consent from the individual at or before
 				the time of collection of personal information. However, there are a number
 				of exceptions in that in some circumstances, such as with employee personal
-				information, Jobsage does not require consent to collect, use or disclose
+				information, iRekommend does not require consent to collect, use or disclose
 				personal information with respect to employees, but may be required to
 				provide notification in advance.
 			</Typography>
 			<Typography className={classes.body} variant="body2">
 				3. In other circumstances, specifically those set out in applicable
-				legislation, the law does not require that Jobsage obtain consent or provide
-				notification. Jobsage reserves all its rights to rely on all available
+				legislation, the law does not require that iRekommend obtain consent or provide
+				notification. iRekommend reserves all its rights to rely on all available
 				statutory exemptions and exceptions.
 			</Typography>
 
@@ -377,7 +377,7 @@ function TermsAndConditionsContent(props) {
 			<Typography className={classes.body} variant="body2">
 				3. Third Party Websites. We may include links to other websites on our
 				website. These third party websites may collect your Personal Information
-				and they may have different privacy policies and practices than Jobsage. We
+				and they may have different privacy policies and practices than iRekommend. We
 				do not assume any responsibility for the privacy practices, policies or
 				actions of the third parties operating these websites. We strongly encourage
 				you to read the privacy policies of these websites to enable you to make an
@@ -392,8 +392,8 @@ function TermsAndConditionsContent(props) {
 				Legislation) prohibiting commercial electronic communications without
 				adequate consent, and without an adequate unsubscribe mechanism. Commercial
 				electronic communications (“CEMs”) are defined as emails and text messages.
-				It is the policy of Jobsage to not send CEMs without valid legal consent
-				from the recipient, and it is the policy of Jobsage to always use the
+				It is the policy of iRekommend to not send CEMs without valid legal consent
+				from the recipient, and it is the policy of iRekommend to always use the
 				unsubscribe mechanisms prescribed by US Anti Spam legislations.
 			</Typography>
 
@@ -757,15 +757,15 @@ function TermsAndConditionsContent(props) {
 			</Typography>
 			<Typography className={classes.body} variant="body1">
 				1. access to their personal information under the custody or control of
-				Jobsage
+				iRekommend
 			</Typography>
 			<Typography className={classes.body} variant="body1">
 				2. information about the purposes for which their personal information under
-				the custody or control of Jobsage has been and is being used; and
+				the custody or control of iRekommend has been and is being used; and
 			</Typography>
 			<Typography className={classes.body} variant="body1">
 				3. the names of organizations or persons to whom and the circumstances in
-				which personal information has been and is being disclosed by Jobsage.
+				which personal information has been and is being disclosed by iRekommend.
 			</Typography>
 			<Typography className={classes.body} variant="body1">4. Requests for access are subject to the following:</Typography>
 			<Typography className={classes.body} variant="body1">1. Any requests must be in writing via post or email;</Typography>
@@ -795,7 +795,7 @@ function TermsAndConditionsContent(props) {
 			<Typography className={classes.body} variant="body2">
 				2. Please note that an individual’s ability to access his or her personal
 				information under our control is not an absolute right. United States law
-				provides that Jobsage must not disclose personal information where:
+				provides that iRekommend must not disclose personal information where:
 			</Typography>
 
 			<Typography className={classes.body} variant="body1">
@@ -815,7 +815,7 @@ function TermsAndConditionsContent(props) {
 			</Typography>
 
 			<Typography className={classes.body} variant="body2">
-				3. Certain United States laws also provide that Jobsage may choose not to
+				3. Certain United States laws also provide that iRekommend may choose not to
 				disclose personal information where:
 			</Typography>
 			<Typography className={classes.body} variant="body1">1. the personal information is protected by any legal privilege;</Typography>
@@ -824,7 +824,7 @@ function TermsAndConditionsContent(props) {
 				information and it is not unreasonable to withhold that information;
 			</Typography>
 			<Typography className={classes.body} variant="body1">
-				3. the personal information was collected by Jobsage for an investigation or
+				3. the personal information was collected by iRekommend for an investigation or
 				legal proceeding;
 			</Typography>
 			<Typography className={classes.body} variant="body1">
@@ -857,7 +857,7 @@ function TermsAndConditionsContent(props) {
 				2. If access to information or copies are refused by us, we will provide
 				written reasons for such refusal and the section of FOIA (the Freedom of
 				Information Act) on which that refusal is based. We will also provide the
-				name of an individual at Jobsage who can answer questions about the refusal,
+				name of an individual at iRekommend who can answer questions about the refusal,
 				and particulars of how the requesting individual can ask the Information and
 				Federal Trade Commission (FTC) or any other relevant Federal or State body
 				of the United States to review our decision. In order to receive a response
@@ -892,7 +892,7 @@ function TermsAndConditionsContent(props) {
 			<Typography className={classes.title} variant="h6">AMENDMENT</Typography>
 
 			<Typography className={classes.body} variant="body2">
-				1. Jobsage may amend this Policy from time to time as required and without
+				1. iRekommend may amend this Policy from time to time as required and without
 				notice, in order to better meet our obligations under the law.
 			</Typography>
 
@@ -951,7 +951,7 @@ function TermsAndConditionsContent(props) {
 			</Typography>
 
 			<Typography className={classes.title} variant="h6">OUR DETAILS</Typography>
-			<Typography className={classes.body} variant="body2">1. This website is owned and operated by Jobsage LLC.</Typography>
+			<Typography className={classes.body} variant="body2">1. This website is owned and operated by iRekommend LLC.</Typography>
 			<Typography className={classes.body} variant="body2">2. We are an South Carolina based LLP of United States</Typography>
 			<Typography className={classes.body} variant="body2">
 				3. Our registered address and principal place of business is located at:
@@ -976,7 +976,7 @@ function TermsAndConditionsContent(props) {
 				</b>
 			</Typography>
 			<Typography className={classes.body} variant="body2">
-				<b>Email: arvind@jobsage.app</b>
+				<b>Email: sales@irekommend.com</b>
 			</Typography>
 		</div>
 	);
