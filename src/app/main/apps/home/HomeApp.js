@@ -20,6 +20,7 @@ import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
 import Button from '@material-ui/core/Button';
 import { openMailDialog } from './store/projectsSlice';
+import Products from './Products'
 import MailDialog from './MailDialog';
 import axios from 'axios';
 import { API_URL } from 'app/fuse-configs/endpointConfig';
@@ -271,6 +272,7 @@ function ProjectDashboardApp(props) {
 				ref={pageLayout}
 			/>
 			<MailDialog />
+			{/* <Products /> */}
 		</>
 	);
 }

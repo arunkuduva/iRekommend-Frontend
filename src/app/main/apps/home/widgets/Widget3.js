@@ -48,10 +48,6 @@ function Widget3(props) {
 				const fileRef = await storageRef.child(`Files/${file.name}`);
 				console.log('file.name ' + e.target.files[0])
 				let uploadTask = await fileRef.put(file);
-				console.log(uploadTask)
-				console.log(fileRef.storage.bucket)
-				console.log(fileRef.fullPath)
-				console.log(await fileRef.getMetadata())
 				dispatch(setIsFileUploadCompleted(true));
 
 				const fileDownladURL = await fileRef.getDownloadURL()

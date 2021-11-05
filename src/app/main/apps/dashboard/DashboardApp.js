@@ -122,7 +122,7 @@ const DashboardApp = (props,a,b)  => {
 	const files = useSelector(selectFiles); 
 	const [fromDate, setFromDate] = useState(moment().date(1));
 	const [toDate, setToDate] = useState(moment()); 
-	const [loading, setLoading] = useState(true);
+	const [loading, setLoading] = useState(false);
 
 	useEffect(() => {
 		axios.put(`${API_URL}/dashboard/${user.data.email}`).then((response) => {
@@ -225,7 +225,9 @@ const DashboardApp = (props,a,b)  => {
 	await setShowRecommendations(true)
 	console.log('inside handleRecommendations')
 	setLoading(true);
-	const data = await axios.get('https://irekommend-ml-code-lle.uc.r.appspot.com/role-resume-matching' ,{params: {role_title: 'developer',
+	const data = 
+	await axios.get('https://irekommend-ml-code-lle.uc.r.appspot.com/role-resume-matching' ,
+	{params: {role_title: 'developer',
         role_desc:roleDescription,
       //  role_location: 'NA',
       //  education_level:'NA',
