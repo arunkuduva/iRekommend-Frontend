@@ -31,7 +31,7 @@ import CardContent from '@material-ui/core/CardContent';
 import Icon from '@material-ui/core/Icon';
 import IconButton from '@material-ui/core/IconButton';
 import Toolbar from '@material-ui/core/Toolbar';
-import {ShowRecommendations1}	from './showRecommendations1'
+import {ShowRecommendations1}	from './showRecommendations1';
 import firebaseService from 'app/services/firebaseService';
 
 
