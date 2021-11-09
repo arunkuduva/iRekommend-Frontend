@@ -5,7 +5,6 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Icon from '@material-ui/core/Icon';
 import IconButton from '@material-ui/core/IconButton';
-// import AddIcCallIcon from '@mui/icons-material/AddIcCall';
 import Toolbar from '@material-ui/core/Toolbar';
 import FuseAnimateGroup from '@fuse/core/FuseAnimateGroup';
 import Typography from '@material-ui/core/Typography';
@@ -179,18 +178,25 @@ export const ShowRecommendations1 = ({ general }) => {
                                             {
                                                 general.is_Open_in_LinkedIn == '1' ?
 
-                                                    <div>
-                                                        <Button size="large" color="#fff" backgroundColor="white">
+                                                    <>
+                                                        <Button size="small" className="ml-8" style={{color:"#17D7A0"}}>
                                                             <Icon className="text-16 mx-4" color="inherit">
-                                                                correct
+                                                            check_circle
                                                             </Icon>
                                                             Ready To Work
                                                         </Button>
-                                                    </div>
-
+                                                    </>
 
                                                     :
-                                                    <div></div>
+                                                    <>
+                                                        <Button size="small" className="ml-8" style={{color:"#FFF9B6"}}>
+                                                            <Icon className="text-16 mx-4" color="inherit">
+                                                            error_outline
+                                                            </Icon>
+                                                            Unready To Work
+                                                        </Button>
+                                                    </>
+
 
                                             }
                                             {
@@ -260,6 +266,12 @@ export const ShowRecommendations1 = ({ general }) => {
                                                         <Grid item xs={12} sm={6} md={4}>
                                                             <Typography className="font-bold inline">Role starting date: </Typography>
                                                             <Typography className="inline">{general.DOJ_current_company}</Typography>
+                                                        </Grid>
+                                                    }
+                                                    {general.Processed_Date &&
+                                                        <Grid item xs={12} sm={6} md={4}>
+                                                            <Typography className="font-bold inline">Processing Date: </Typography>
+                                                            <Typography className="inline">{general.Processed_Date}</Typography>
                                                         </Grid>
                                                     }
                                                     {general.candidate_location &&
