@@ -18,6 +18,7 @@ import FileViewer from 'react-file-viewer';
 import DocViewer, { DocViewerRenderers } from 'react-doc-viewer';
 import { Doughnut } from 'react-chartjs-2';
 import { getFilenameAndExtension } from 'app/utils';
+import { indexOf } from 'lodash';
 
 
 export const ShowRecommendations1 = ({ general }) => {
@@ -25,37 +26,40 @@ export const ShowRecommendations1 = ({ general }) => {
     const [loading, setLoading] = useState(false);
     const [showResume, setshowResume] = useState(false);
     const [DocumentURL, setDocumentURL] = useState('');
-    const [ValidEmailId, setValidEmailId]= useState('');
-    const validEmail=(str)=>{
-        const regx= /([A-Za-z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+)/gi;;
-        if(str.match(regx)){
-            let e=str.match(regx);
+    const [ValidEmailId, setValidEmailId] = useState('');
+    const validEmail = (str) => {
+        const regx = /([A-Za-z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+)/gi;;
+        if (str.match(regx)) {
+            let e = str.match(regx);
             return e[0]
         }
         return false;
     }
-    useEffect(()=>{
-        let data=validEmail(general.candidate_email_id);
+
+    const gitHubLink = (link) => {
+        if (link.includes(',')) {
+            return link.substring(0, link.indexOf(','));
+        }
+        return link;
+    }
+    
+    useEffect(() => {
+        let data = validEmail(general.candidate_email_id);
         setValidEmailId(data);
 
-    },[])
+    }, [])
     function transformText(text) {
         let finalText = ''
-        let atleastone = false
-        let experience
         if (text.includes('Developer')) {
-            atleastone = true
-            finalText = finalText + 'Developer'
+            finalText = `Candidate is Developer`
         }
         if (text.includes('Architect')) {
-            atleastone = true
-            finalText = finalText + 'Architect'
+            finalText = `Candidate is Architect`
         }
-        if (atleastone) {
-            finalText = 'Candidate is ' + 'Developer' + ' with '
-
+        
+        if (Number(general['Years of Experience'])) {
+            finalText = `${finalText} with ${general['Years of Experience']} ${Number(general['Years of Experience']) > 1 ? 'years' : 'year'} experience.`
         }
-        finalText = `${finalText} ${general['Years of Experience']} ${Number(general['Years of Experience']) > 1 ? 'years' : 'year'} experience.`
         return finalText
     }
 
@@ -121,6 +125,7 @@ export const ShowRecommendations1 = ({ general }) => {
             .then(resp => {
 
                 //  download(resp.data,general['Resume_Name']);
+                console.log('deb here', resp.data)
 
                 const file = new Blob([resp.data], {
                     type: "application/pdf"
@@ -179,24 +184,16 @@ export const ShowRecommendations1 = ({ general }) => {
                                                 general.is_Open_in_LinkedIn == '1' ?
 
                                                     <>
-                                                        <Button size="small" className="ml-8" style={{color:"#17D7A0"}}>
+                                                        <Button size="small" className="ml-8" style={{ color: "#17D7A0" }}>
                                                             <Icon className="text-16 mx-4" color="inherit">
-                                                            check_circle
+                                                                check_circle
                                                             </Icon>
                                                             Ready To Work
                                                         </Button>
                                                     </>
 
                                                     :
-                                                    <>
-                                                        <Button size="small" className="ml-8" style={{color:"#FFF9B6"}}>
-                                                            <Icon className="text-16 mx-4" color="inherit">
-                                                            error_outline
-                                                            </Icon>
-                                                            Unready To Work
-                                                        </Button>
-                                                    </>
-
+                                                    <></>
 
                                             }
                                             {
@@ -238,17 +235,24 @@ export const ShowRecommendations1 = ({ general }) => {
                                         <Typography className="font-bold mb-4 text-18">Why this Candidate?</Typography>
 
                                         <div className="ml-16">
-                                            <Typography className="font-bold">{general['Common Personas'] && transformText(general['Common Personas'])}</Typography>
-                                            {general['Common Skills'].replaceAll(/developer/ig, '') &&
-                                                <div>
+                                            <Typography className="font-bold mb-8">{general['Common Personas'] && transformText(general['Common Personas'])}</Typography>
+                                           
+                                            {general['Common Personas'].replaceAll(/developer/ig, '') &&
+                                                <>
                                                     <Typography className="font-bold inline">Candidate has experience in </Typography>
-                                                    <Typography className="ml-4 text-18 inline">
-                                                        {general['Common Skills'].replaceAll(/developer/ig, '')}
+                                                    <Typography className="ml-4 text-17 inline">
+                                                        {general['Common Personas'].replaceAll(/developer,/ig, '')}
                                                     </Typography>
-                                                    <Typography className="font-bold">Relevant Skills for job: {general['Common Skills'].replaceAll(/developer/ig, '')}</Typography>
-                                                </div>
+                                                </>
                                             }
-                                            <Paper elevation={0} className="mt-16">
+                                            {
+                                                general['Common Skills'].replaceAll(/developer/ig, '') &&
+                                                <Typography className="font-bold my-4">Relevant Skills for job:
+                                                    <Typography className="inline pl-8 text-17" >{general['Common Skills'].replaceAll(/developer,/ig, '')}</Typography>
+                                                </Typography>
+
+                                            }
+                                            < Paper elevation={0} className="mt-16">
                                                 <Grid container spacing={2} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
                                                     {general.current_company &&
                                                         <Grid item xs={12} sm={6} md={4}>
@@ -271,7 +275,7 @@ export const ShowRecommendations1 = ({ general }) => {
                                                     {general.Processed_Date &&
                                                         <Grid item xs={12} sm={6} md={4}>
                                                             <Typography className="font-bold inline">Processing Date: </Typography>
-                                                            <Typography className="inline">{general.Processed_Date}</Typography>
+                                                            <Typography className="inline">{general.Processed_Date.substring(0, general.Processed_Date.indexOf(' '))}</Typography>
                                                         </Grid>
                                                     }
                                                     {general.candidate_location &&
@@ -316,8 +320,8 @@ export const ShowRecommendations1 = ({ general }) => {
                                                         &&
                                                         <Grid item xs={12} sm={6} md={4}>
                                                             <Typography className="font-bold inline">Github Link: </Typography>
-                                                            <a href={general.Github_link} target="_blank" rel="noreferrer noopener">
-                                                                <Typography className="inline">{general.Github_link}</Typography>
+                                                            <a href={gitHubLink(general.Github_link)} target="_blank" rel="noreferrer noopener">
+                                                                <Typography className="inline">{gitHubLink(general.Github_link)}</Typography>
                                                             </a>
                                                         </Grid>
                                                     }
@@ -443,7 +447,7 @@ export const ShowRecommendations1 = ({ general }) => {
                 :
 
                 <div></div>}
-        </div>
+        </div >
 
 
     )
