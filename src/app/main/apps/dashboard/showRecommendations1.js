@@ -19,6 +19,7 @@ import DocViewer, { DocViewerRenderers } from 'react-doc-viewer';
 import { Doughnut } from 'react-chartjs-2';
 import { getFilenameAndExtension } from 'app/utils';
 import { indexOf } from 'lodash';
+import { doc } from 'prettier';
 
 
 export const ShowRecommendations1 = ({ general }) => {
@@ -27,6 +28,9 @@ export const ShowRecommendations1 = ({ general }) => {
     const [showResume, setshowResume] = useState(false);
     const [DocumentURL, setDocumentURL] = useState('');
     const [ValidEmailId, setValidEmailId] = useState('');
+    const [isDoc, setIsDoc] = useState(false);
+    const [docsUrl, setDocsUrl] = useState('');
+
     const validEmail = (str) => {
         const regx = /([A-Za-z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+)/gi;;
         if (str.match(regx)) {
@@ -42,12 +46,22 @@ export const ShowRecommendations1 = ({ general }) => {
         }
         return link;
     }
-    
+
     useEffect(() => {
         let data = validEmail(general.candidate_email_id);
         setValidEmailId(data);
 
     }, [])
+
+    // useEffect(() => {
+    //     let docs = [
+    //         { uri: DocumentURL }
+    //     ]
+    //     console.log(docs, 'check');
+    //     setDocsUrl(doc);
+
+    // }, [showResume])
+
     function transformText(text) {
         let finalText = ''
         if (text.includes('Developer')) {
@@ -56,7 +70,7 @@ export const ShowRecommendations1 = ({ general }) => {
         if (text.includes('Architect')) {
             finalText = `Candidate is Architect`
         }
-        
+
         if (Number(general['Years of Experience'])) {
             finalText = `${finalText} with ${general['Years of Experience']} ${Number(general['Years of Experience']) > 1 ? 'years' : 'year'} experience.`
         }
@@ -221,6 +235,7 @@ export const ShowRecommendations1 = ({ general }) => {
                                         //         }}}
                                         // />
                                         <div style={{ height: '500px' }}>
+                                            {console.log()}
                                             <FileViewer
                                                 fileType={getFilenameAndExtension(general.Resume_Name)[1]}
                                                 // filePath={require( './ArunPremSkillSet.pdf')}
@@ -228,19 +243,32 @@ export const ShowRecommendations1 = ({ general }) => {
                                                 // errorComponent={CustomErrorComponent}
                                                 onError={onError}
                                             />
+                                            {/* <DocViewer pluginRenderers={DocViewerRenderers} documents={docsUrl} /> */}
                                         </div>
                                     }
 
                                     <div className="mb-24">
+                                        <div className="flex" style={{marginTop: '-5px'}}>
+                                            <div className="flex-none"></div>
+                                            <div class="flex-grow ">
+                                            </div>
+
+                                            {
+                                                general.Processed_Date && <div className="flex-none">
+                                                    <Typography className="font-bold inline">Upload Date: </Typography>
+                                                    <Typography className="inline">{general.Processed_Date.substring(0, general.Processed_Date.indexOf(' '))}</Typography>
+                                                </div>
+                                            }
+                                        </div>
                                         <Typography className="font-bold mb-4 text-18">Why this Candidate?</Typography>
 
                                         <div className="ml-16">
-                                            <Typography className="font-bold mb-8">{general['Common Personas'] && transformText(general['Common Personas'])}</Typography>
-                                           
+                                                <Typography className="font-bold mb-8 flex-none md:block">{general['Common Personas'] && transformText(general['Common Personas'])}</Typography>
+
                                             {general['Common Personas'].replaceAll(/developer/ig, '') &&
                                                 <>
                                                     <Typography className="font-bold inline">Candidate has experience in </Typography>
-                                                    <Typography className="ml-4 text-17 inline">
+                                                    <Typography className="ml-4 font-bold inline">
                                                         {general['Common Personas'].replaceAll(/developer,/ig, '')}
                                                     </Typography>
                                                 </>
@@ -248,7 +276,7 @@ export const ShowRecommendations1 = ({ general }) => {
                                             {
                                                 general['Common Skills'].replaceAll(/developer/ig, '') &&
                                                 <Typography className="font-bold my-4">Relevant Skills for job:
-                                                    <Typography className="inline pl-8 text-17" >{general['Common Skills'].replaceAll(/developer,/ig, '')}</Typography>
+                                                    <Typography className="inline pl-8 font-bold" >{general['Common Skills'].replaceAll(/developer,/ig, '')}</Typography>
                                                 </Typography>
 
                                             }
@@ -256,14 +284,14 @@ export const ShowRecommendations1 = ({ general }) => {
                                                 <Grid container spacing={2} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
                                                     {general.current_company &&
                                                         <Grid item xs={12} sm={6} md={4}>
-                                                            <Typography className="font-bold inline">Current Company: </Typography>
-                                                            <Typography className="inline">{general.current_company} </Typography>
+                                                            <Typography className="inline font-bold">Current Company: </Typography>
+                                                            <Typography className="inline font-bold">{general.current_company} </Typography>
                                                         </Grid>
                                                     }
                                                     {general.job_title_current &&
-                                                        <Grid item xs={12} sm={6} md={4}>
-                                                            <Typography className="font-bold inline">Job Tittle: </Typography>
-                                                            <Typography className="inline">{general.job_title_current}</Typography>
+                                                        <Grid item xs={12} sm={6} md={4} >
+                                                            <Typography className="inline font-bold">Job Tittle: </Typography>
+                                                            <Typography className="inline font-bold">{general.job_title_current}</Typography>
                                                         </Grid>
                                                     }
                                                     {general.DOJ_current_company &&
@@ -272,35 +300,37 @@ export const ShowRecommendations1 = ({ general }) => {
                                                             <Typography className="inline">{general.DOJ_current_company}</Typography>
                                                         </Grid>
                                                     }
-                                                    {general.Processed_Date &&
+                                                    {/* {general.Processed_Date &&
                                                         <Grid item xs={12} sm={6} md={4}>
                                                             <Typography className="font-bold inline">Processing Date: </Typography>
                                                             <Typography className="inline">{general.Processed_Date.substring(0, general.Processed_Date.indexOf(' '))}</Typography>
                                                         </Grid>
-                                                    }
+                                                    } */}
                                                     {general.candidate_location &&
                                                         <Grid item xs={12} sm={6} md={4}>
-                                                            <Typography className="inline">{general.candidate_location}</Typography>
-                                                            <Icon className="text-16 mx-4 inline align-middle" color="action">
+                                                            <Typography className="font-bold inline text-13">{general.candidate_location}</Typography>
+                                                            <Icon className="mx-4 inline align-middle font-bold text-16" color="action">
                                                                 location_on
                                                             </Icon>
                                                         </Grid>
                                                     }
                                                     {general.candidate_phone_no &&
                                                         <Grid item xs={12} sm={6} md={4}>
-                                                            <Icon className="text-16 mx-4 inline align-middle" color="action">
+                                                            <Icon className="font-bold text-16 mx-4 inline align-middle" color="action">
                                                                 phone
                                                             </Icon>
-                                                            <Typography className="ml-4 inline">{general.candidate_phone_no}</Typography>
+                                                            <Typography className="font-bold ml-4 inline">{general.candidate_phone_no}</Typography>
                                                         </Grid>
                                                     }
                                                     {ValidEmailId &&
                                                         <Grid item xs={12} sm={6} md={4}>
-                                                            <Icon className="text-16 mx-4 inline align-middle" color="action">
+                                                            <Icon className="text-16 font-bold mx-4 inline align-middle" color="action">
                                                                 email
                                                             </Icon>
 
-                                                            <Typography className="inline">{ValidEmailId}</Typography>
+                                                            <Typography className="inline cursor-pointer font-bold" onClick={() => {
+                                                                navigator.clipboard.writeText(ValidEmailId);
+                                                            }}>{ValidEmailId}</Typography>
                                                         </Grid>
                                                     }
 
@@ -308,10 +338,9 @@ export const ShowRecommendations1 = ({ general }) => {
                                                         general.LinkedIn_link && general.LinkedIn_link != 'None'
                                                         &&
                                                         <Grid item xs={12} sm={6} md={4}>
-                                                            <Typography className="font-bold inline">linkedIn: </Typography>
-                                                            <a href={general.LinkedIn_link} target="_blank" rel="noreferrer noopener">
-                                                                <Typography className="inline">{general.LinkedIn_link}</Typography>
-                                                            </a>
+                                                            <Typography className="font-bold inline cursor-pointer" onClick={() => {
+                                                                window.open(general.LinkedIn_link)
+                                                            }}>LinkedIn</Typography>
                                                         </Grid>
                                                     }
 
@@ -319,10 +348,9 @@ export const ShowRecommendations1 = ({ general }) => {
                                                         general.Github_link
                                                         &&
                                                         <Grid item xs={12} sm={6} md={4}>
-                                                            <Typography className="font-bold inline">Github Link: </Typography>
-                                                            <a href={gitHubLink(general.Github_link)} target="_blank" rel="noreferrer noopener">
-                                                                <Typography className="inline">{gitHubLink(general.Github_link)}</Typography>
-                                                            </a>
+                                                            <Typography className="font-bold inline cursor-pointer" onClick={() => {
+                                                                window.open(gitHubLink(general.Github_link))
+                                                            }}>Github Link</Typography>
                                                         </Grid>
                                                     }
                                                 </Grid>
@@ -330,118 +358,13 @@ export const ShowRecommendations1 = ({ general }) => {
                                         </div>
 
                                     </div>
-
-                                    {/* {general['Years of Experience'] > 0 ? <div className="mb-24">
-                                        <Typography className="font-bold mb-4 text-15">Years of Experience</Typography>
-                                        <Typography>{general['Years of Experience']}</Typography>
-                                    </div> : <div></div>
-                                    } */}
-
-                                    {/* {
-                                        general.Github_link
-                                        &&
-                                        <div className="mb-24">
-                                            <Typography className="font-bold mb-4 text-15">Github Link</Typography>
-                                            <Typography>{general.Github_link}</Typography>
-                                        </div>
-                                    } */}
-
-                                    {/* {
-                                        general.LinkedIn_link && general.LinkedIn_link != 'None'
-                                        &&
-                                        <div className="mb-24">
-                                            <Typography className="font-bold mb-4 text-15">LinkedIn Link</Typography>
-                                            <Typography>{general.LinkedIn_link}</Typography>
-                                        </div>
-                                    } */}
-
-                                    {/* {
-                                        <div className="mb-24">
-                                            <Typography className="font-bold mb-4 text-15">Current Employment Details</Typography>
-                                            {general.current_company && <Typography>Current Company: {general.current_company}</Typography>}
-                                            {general.DOJ_current_company && <Typography>Date of recent Join: {general.DOJ_current_company}</Typography>}
-                                            {general.job_title_current && <Typography>Job Title in current/previous Company: {general.job_title_current}</Typography>}
-                                            {general.work_experience_details && <Typography>Work Experience: {general.work_experience_details}</Typography>}
-                                        </div>
-                                    } */}
-
-                                    {/* {general.education_details && general.education_details != 'None' &&
-                                        <div className="mb-24">
-                                            <Typography className="font-bold mb-4 text-15">Education Details</Typography>
-                                            <Typography>Education Details: {general.education_details}</Typography>
-                                        </div>
-                                    } */}
-
-                                    {/* <div className="flex-row">
-                                        <div className="p-2">        {
-                                            general.candidate_location && <div className="mb-24">
-                                                <Typography className="font-bold mb-4 text-15">Locations</Typography>
-                                                <div className="flex items-center" >
-                                                    <Typography>{general.candidate_location}</Typography>
-                                                    <Icon className="text-16 mx-4" color="action">
-                                                        location_on
-                                                    </Icon>
-                                                </div>
-                                            </div>
-                                        }
-
-                                            {
-                                                general.location_preference &&
-                                                <div className="mb-24">
-                                                    <Typography className="font-bold mb-4 text-15">Location Preference</Typography>
-                                                    <div className="flex items-center" >
-                                                        <Typography>{general.location_preference}</Typography>
-                                                        <Icon className="text-16 mx-4" color="action">
-                                                            location_on
-                                                        </Icon>
-                                                    </div>
-                                                </div>
-                                            }
-                                        </div>
-
-
-                                        <div className="p-2">
-                                            {general.candidate_phone_no &&
-                                                <div className="mb-24">
-                                                    <Typography className="font-bold mb-4 text-15">Contact</Typography>
-                                                    <div className="flex items-center" >
-
-                                                        <Icon className="text-16 mx-4" color="action">
-                                                            phone
-                                                        </Icon>
-                                                        <Typography>{general.candidate_phone_no}</Typography>
-                                                    </div>
-
-                                                    <div className="flex items-center" >
-
-                                                        <Icon className="text-16 mx-4" color="action">
-                                                            email
-                                                        </Icon>
-
-                                                        <Typography>{general.candidate_email_id}</Typography>
-                                                    </div>
-
-                                                </div>
-                                            }
-                                        </div>
-                                    </div> */}
-                                    {/* <div className="h-400 w-full p-32">
-
-
-                                        <Doughnut
-                                            data={{
-                                                labels: ['amgular','vue'],
-                                                datasets: widget.mainChart.datasets[currentRange]
-                                            }}
-                                            options={widget.mainChart.options}
-                                        />
-                                </div> */}
                                 </CardContent>
                             </Card>
 
                         </FuseAnimateGroup>
 
                     </div>
+
                 </div>
 
                 :
