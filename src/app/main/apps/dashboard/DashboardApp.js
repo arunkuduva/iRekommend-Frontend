@@ -283,7 +283,7 @@ const DashboardApp = (props,a,b)  => {
 					</div>
 					
 
-				{ShowRecommendations  && general.map((general1, index)=>
+				{!loading && ShowRecommendations  && general.map((general1, index)=>
 					 (
 					<ShowRecommendations1 general = {general1}
 				 />
