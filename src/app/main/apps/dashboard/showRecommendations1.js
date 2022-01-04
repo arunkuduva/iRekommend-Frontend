@@ -152,8 +152,9 @@ export const  ShowRecommendations1 = ({general})  => {
                                                        {general.candidate_name && general.candidate_name != 'None' ? general.candidate_name : extensionRemovedFileName(general.Resume_Name)}
                                                    
                                                     </Button>
-
-                                                    <Button size="small" onClick = {resumeDownload} aria-label="Add to favorites" color="inherit">
+                                                    {general['GS_URI_Actual_Resume_Location'] && 
+                                                    <div>
+                                                        <Button size="small" onClick = {resumeDownload} aria-label="Add to favorites" color="inherit">
                                                         <Icon className="text-16 mx-4" color="inherit">
 										            	downloading
 										                </Icon>
@@ -165,6 +166,9 @@ export const  ShowRecommendations1 = ({general})  => {
 										                </Icon>
                                                         {showResume ?  'Hide Resume' : 'View Resume' }
                                                     </Button>
+                                                    </div>}
+                                                    
+                                                    
                                                     {
                                                         general.is_Open_in_LinkedIn == '-1' ? 
                                                         

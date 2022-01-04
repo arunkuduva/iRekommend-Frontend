@@ -90,13 +90,13 @@ const HeaderFullScreenToggle = props => {
 
 	return (
 		<>
-			<Button className="min-h-40 min-w-40 px-0 md:px-16 py-0 md:py-6" onClick={userMenuClick}>
+			{/* <Button className="min-h-40 min-w-40 px-0 md:px-16 py-0 md:py-6" onClick={userMenuClick}>
 				<div className="hidden md:flex flex-col mx-4 items-end">
 					<Typography component="span" className="normal-case font-bold flex">
 						<Link to='/apps/candidateUpload'>Candidate Upload</Link>
 					</Typography>
 				</div>
-			</Button>	
+			</Button>	 */}
 
 			<Button className="min-h-40 min-w-40 px-0 md:px-16 py-0 md:py-6">
 				<div className="hidden md:flex flex-col mx-4 items-end">

@@ -94,7 +94,7 @@ function ProjectDashboardApp(props) {
 	}, []);
 
 	function getSteps() {
-		return ['Upload Resume & Roles'
+		return ['Upload Resume'
 		//, 'Download Recommendations'
 //	, 'Select Matching Candidates'
 	];
